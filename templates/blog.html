@@ -290,23 +290,26 @@
 	</style>
 
 	<script>
+		document.addEventListener('DOMContentLoaded', ()=>{
 		const modalOverlay = document.getElementById('image-modal');
 		const modalImg = document.getElementById('modal-img');
 
-		function toggleOverlay() {
+		window.toggleOverlay =() => {
 			modalOverlay.classList.toggle('active');
 		}
 
-		function openImageModal(imgSrc) {
+		window.openImageModal = (imgSrc) => {
+			console.log(imgSrc)
 			modalImg.src = imgSrc;
 			toggleOverlay();
 		}
 
-		function handleOverlayClick(e) {
+		window.handleOverlayClick = (e) => {
 			if (e.target === modalOverlay) {
 				toggleOverlay();
 			}
 		}
+	})
 	</script>
 {% endblock %}
 {% block overlay %}
