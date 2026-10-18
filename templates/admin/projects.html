@@ -1,0 +1,142 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Projects Portfolio{% endblock %}
+{% block page_heading %}Portfolio Projects{% endblock %}
+{% block page_description %}Manage showcase projects, technology tags, and repository links{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Projects</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ "{:,}".format(projects|length) }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Showcase items</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold">
+                <i class="fas fa-code text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Active Deployments</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ "{:,}".format(projects|length) }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Live web portals</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-green-500/10 text-lutan-green flex items-center justify-center font-bold border border-green-200/50 dark:border-green-800/50">
+                <i class="fas fa-globe text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">New Project</span>
+                <p class="text-xs font-bold text-slate-700 dark:text-slate-300 mt-2">Add Portfolio Entry</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">Publish new work</p>
+            </div>
+            <a href="{{ url_for('admin_add_project') }}" class="w-11 h-11 rounded-xl bg-lutan-green hover:bg-lutan-darkgreen text-white flex items-center justify-center font-bold transition-all shadow-md hover:scale-105">
+                <i class="fas fa-plus text-sm"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="soft-card overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/30">
+            <div>
+                <h2 class="font-black text-base text-slate-900 dark:text-white">Project Directory</h2>
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Manage portfolio items, live preview links, and source repositories</p>
+            </div>
+            <a href="{{ url_for('admin_add_project') }}" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl inline-flex items-center gap-2 shadow-sm transition-all">
+                <i class="fas fa-plus text-xs"></i> Add Project
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-100/70 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                        <th class="px-6 py-4">Project</th>
+                        <th class="px-6 py-4">Type & Date</th>
+                        <th class="px-6 py-4">Tech Stack</th>
+                        <th class="px-6 py-4">Links</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-800/80 text-xs">
+                    {% for item in projects %}
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors align-top">
+                        <td class="px-6 py-4">
+                            <div class="flex items-center gap-3">
+                                {% if item.img %}
+                                <img src="{{ (item.img if item.img.startswith('https') else '/static' ~ item.img) }}" alt="" class="w-12 h-10 rounded-lg object-cover border border-slate-200 dark:border-slate-700 shrink-0">
+                                {% else %}
+                                <div class="w-12 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 shrink-0 border border-slate-200 dark:border-slate-700">
+                                    <i class="fas fa-image text-xs"></i>
+                                </div>
+                                {% endif %}
+                                <div>
+                                    <span class="font-black text-sm text-slate-900 dark:text-white block">{{ item.name }}</span>
+                                    <span class="text-slate-500 dark:text-slate-400 text-[11px] line-clamp-1 mt-0.5">{{ item.desc }}</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-blue-100/60 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 font-bold text-[11px] border border-blue-200 dark:border-blue-800">
+                                {{ item.type }}
+                            </span>
+                            <span class="block text-[11px] text-slate-400 font-mono mt-1">{{ item.date or 'N/A' }}</span>
+                        </td>
+                        <td class="px-6 py-4 max-w-xs">
+                            <div class="flex flex-wrap gap-1">
+                                {% if item.tech %}
+                                    {% for tech in item.tech %}
+                                    <span class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-mono text-[10px] font-semibold border border-slate-200 dark:border-slate-700">{{ tech }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                <span class="text-slate-400 text-[11px]">No tags</span>
+                                {% endif %}
+                            </div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap space-y-1">
+                            {% if item.site %}
+                            <a href="{{ item.site }}" target="_blank" class="inline-flex items-center gap-1 text-lutan-green hover:underline font-bold text-[11px] block">
+                                <i class="fas fa-external-link-alt text-[10px]"></i> Live Demo
+                            </a>
+                            {% endif %}
+                            {% if item.code %}
+                            <a href="{{ item.code }}" target="_blank" class="inline-flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:underline font-bold text-[11px] block">
+                                <i class="fab fa-github text-[10px]"></i> Repository
+                            </a>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 text-right whitespace-nowrap space-x-1.5">
+                            <a href="{{ url_for('admin_edit_project', project_id=item.id) }}" class="px-3 py-1.5 rounded-xl font-extrabold text-[11px] bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 transition-all inline-block" title="Edit Project">
+                                <i class="fas fa-edit text-xs mr-1"></i> Edit
+                            </a>
+                            <form action="{{ url_for('admin_delete_project', project_id=item.id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to delete project {{ item.name }}?');">
+                                <button type="submit" class="px-3 py-1.5 rounded-xl font-extrabold text-[11px] bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 transition-all" title="Delete Project">
+                                    <i class="fas fa-trash-alt text-xs mr-1"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="px-6 py-20 text-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mx-auto mb-3 shadow-xs">
+                                <i class="fas fa-code text-lg"></i>
+                            </div>
+                            <p class="font-extrabold text-sm text-slate-900 dark:text-white">No projects found.</p>
+                            <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Add portfolio projects to showcase your work.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

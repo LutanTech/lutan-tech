@@ -1,0 +1,279 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Visitor Campaigns{% endblock %}
+{% block page_heading %}Visitor Campaigns{% endblock %}
+{% block page_description %}Track UTM parameters, traffic sources, and marketing analytics{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    {% set stats = namespace(sources={}, mediums={}, campaigns={}) %}
+    {% for item in campaigns %}
+        {% if item.source %}
+            {% set _ = stats.sources.update({item.source: stats.sources.get(item.source, 0) + 1}) %}
+        {% endif %}
+        {% if item.medium %}
+            {% set _ = stats.mediums.update({item.medium: stats.mediums.get(item.medium, 0) + 1}) %}
+        {% endif %}
+        {% if item.campaign %}
+            {% set _ = stats.campaigns.update({item.campaign: stats.campaigns.get(item.campaign, 0) + 1}) %}
+        {% endif %}
+    {% endfor %}
+
+    <!-- Metric Overview Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Filtered</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ "{:,}".format(campaigns|length) }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Matched records</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold">
+                <i class="fas fa-list text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Unique Sources</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ stats.sources|length }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Distinct UTM sources</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center font-bold">
+                <i class="fas fa-globe text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Unique Mediums</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ stats.mediums|length }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Distinct UTM mediums</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-green-500/10 text-lutan-green flex items-center justify-center font-bold border border-green-200/50 dark:border-green-800/50">
+                <i class="fas fa-link text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Unique Campaigns</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ stats.campaigns|length }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Distinct campaign tags</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center font-bold border border-amber-200/50 dark:border-amber-800/50">
+                <i class="fas fa-bullhorn text-sm"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pure HTML/CSS Breakdown & Ranking Chart Cards -->
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+
+        <!-- Top Sources Ranking Card -->
+        <div class="soft-card overflow-hidden flex flex-col justify-between">
+            <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div>
+                    <h3 class="font-black text-base text-slate-900 dark:text-white">Top Sources</h3>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Ranked by traffic volume</p>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center border border-purple-200 dark:border-purple-800">
+                    <i class="fas fa-globe text-xs"></i>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-4 flex-1">
+                {% if stats.sources %}
+                    {% set max_source = stats.sources.values()|max %}
+                    {% for src, count in stats.sources.items()|sort(attribute=1, reverse=true) %}
+                        <div>
+                            <div class="flex justify-between items-center text-xs font-bold mb-1">
+                                <span class="text-slate-800 dark:text-slate-200 font-mono">{{ src }}</span>
+                                <span class="font-black text-slate-900 dark:text-white">{{ "{:,}".format(count) }}</span>
+                            </div>
+                            <div class="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full rounded-full bg-purple-500 transition-all" style="width: {{ (count / max_source * 100) }}%"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="py-8 text-center text-slate-500 dark:text-slate-400 text-xs font-medium">No source data recorded yet.</div>
+                {% endif %}
+            </div>
+
+            <div class="px-6 py-3 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 text-[11px] font-bold text-slate-500 dark:text-slate-400 text-center">
+                Leading UTM Sources Analysis
+            </div>
+        </div>
+
+        <!-- Top Mediums Ranking Card -->
+        <div class="soft-card overflow-hidden flex flex-col justify-between">
+            <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div>
+                    <h3 class="font-black text-base text-slate-900 dark:text-white">Top Mediums</h3>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Ranked by traffic volume</p>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-green-100 dark:bg-green-950/60 text-lutan-green flex items-center justify-center border border-green-200 dark:border-green-800">
+                    <i class="fas fa-link text-xs"></i>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-4 flex-1">
+                {% if stats.mediums %}
+                    {% set max_medium = stats.mediums.values()|max %}
+                    {% for med, count in stats.mediums.items()|sort(attribute=1, reverse=true) %}
+                        <div>
+                            <div class="flex justify-between items-center text-xs font-bold mb-1">
+                                <span class="text-slate-800 dark:text-slate-200 font-mono">{{ med }}</span>
+                                <span class="font-black text-slate-900 dark:text-white">{{ "{:,}".format(count) }}</span>
+                            </div>
+                            <div class="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full rounded-full bg-lutan-green transition-all" style="width: {{ (count / max_medium * 100) }}%"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="py-8 text-center text-slate-500 dark:text-slate-400 text-xs font-medium">No medium data recorded yet.</div>
+                {% endif %}
+            </div>
+
+            <div class="px-6 py-3 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 text-[11px] font-bold text-slate-500 dark:text-slate-400 text-center">
+                Leading UTM Mediums Analysis
+            </div>
+        </div>
+
+        <!-- Top Campaigns Ranking Card -->
+        <div class="soft-card overflow-hidden flex flex-col justify-between">
+            <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div>
+                    <h3 class="font-black text-base text-slate-900 dark:text-white">Top Campaigns</h3>
+                    <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Ranked by traffic volume</p>
+                </div>
+                <div class="w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center border border-amber-200 dark:border-amber-800">
+                    <i class="fas fa-bullhorn text-xs"></i>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-4 flex-1">
+                {% if stats.campaigns %}
+                    {% set max_camp = stats.campaigns.values()|max %}
+                    {% for camp, count in stats.campaigns.items()|sort(attribute=1, reverse=true) %}
+                        <div>
+                            <div class="flex justify-between items-center text-xs font-bold mb-1">
+                                <span class="text-slate-800 dark:text-slate-200 font-mono">{{ camp }}</span>
+                                <span class="font-black text-slate-900 dark:text-white">{{ "{:,}".format(count) }}</span>
+                            </div>
+                            <div class="h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                                <div class="h-full rounded-full bg-amber-500 transition-all" style="width: {{ (count / max_camp * 100) }}%"></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="py-8 text-center text-slate-500 dark:text-slate-400 text-xs font-medium">No campaign data recorded yet.</div>
+                {% endif %}
+            </div>
+
+            <div class="px-6 py-3 bg-slate-50 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 text-[11px] font-bold text-slate-500 dark:text-slate-400 text-center">
+                Leading Campaign Tags Analysis
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Filter Form -->
+    <div class="soft-card p-6">
+        <form method="GET" action="{{ url_for('admin_campaigns') }}" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div>
+                <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Source</label>
+                <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="text" name="source" value="{{ source }}" placeholder="Filter by source">
+            </div>
+
+            <div>
+                <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Medium</label>
+                <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="text" name="medium" value="{{ medium }}" placeholder="Filter by medium">
+            </div>
+
+            <div>
+                <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Campaign</label>
+                <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="text" name="campaign" value="{{ campaign }}" placeholder="Filter by campaign">
+            </div>
+
+            <div class="flex items-end gap-2">
+                <button class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider px-4 py-3 rounded-xl inline-flex items-center justify-center gap-2 shadow-sm transition-all flex-1 h-[42px]" type="submit">
+                    <i class="fas fa-filter text-xs"></i> Filter
+                </button>
+                <a href="{{ url_for('admin_campaigns') }}" class="bg-slate-600 hover:bg-slate-700 text-white font-extrabold text-xs px-4 py-3 rounded-xl inline-flex items-center justify-center shadow-sm transition-all h-[42px]" title="Reset filters">
+                    <i class="fas fa-rotate-left text-xs"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Campaigns Table -->
+    <div class="soft-card overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/30">
+            <div>
+                <h2 class="font-black text-base text-slate-900 dark:text-white">Marketing Campaign Records</h2>
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Showing up to 500 records</p>
+            </div>
+            <div class="w-9 h-9 rounded-lg bg-green-100 dark:bg-green-950/60 text-lutan-green flex items-center justify-center border border-green-200 dark:border-green-800 shadow-xs">
+                <i class="fas fa-bullhorn text-xs"></i>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-100/70 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                        <th class="px-6 py-4">Source</th>
+                        <th class="px-6 py-4">Medium</th>
+                        <th class="px-6 py-4">Campaign</th>
+                        <th class="px-6 py-4">Term</th>
+                        <th class="px-6 py-4">Content</th>
+                        <th class="px-6 py-4">Landing Page</th>
+                        <th class="px-6 py-4">Referrer</th>
+                        <th class="px-6 py-4">IP Address</th>
+                        <th class="px-6 py-4">Date</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-800/80 text-xs">
+                    {% for item in campaigns %}
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                        <td class="px-6 py-4 align-middle font-bold text-slate-900 dark:text-white">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-green-100/60 text-lutan-green dark:bg-green-950/50 dark:text-emerald-400 border border-green-200 dark:border-green-800 font-mono text-[11px]">
+                                {{ item.source or 'N/A' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 align-middle font-medium text-slate-700 dark:text-slate-300">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-100/60 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-mono text-[11px]">
+                                {{ item.medium or 'N/A' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 align-middle font-semibold text-slate-800 dark:text-slate-200">{{ item.campaign or 'N/A' }}</td>
+                        <td class="px-6 py-4 align-middle font-medium text-slate-500 dark:text-slate-400">{{ item.term or 'N/A' }}</td>
+                        <td class="px-6 py-4 align-middle font-medium text-slate-500 dark:text-slate-400">{{ item.content or 'N/A' }}</td>
+                        <td class="px-6 py-4 align-middle min-w-[200px] max-w-xs break-all font-mono text-slate-600 dark:text-slate-300">{{ item.landing_page }}</td>
+                        <td class="px-6 py-4 align-middle min-w-[180px] max-w-xs break-all font-mono text-slate-500 dark:text-slate-400">{{ item.referrer or 'Direct' }}</td>
+                        <td class="px-6 py-4 align-middle font-mono font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">{{ item.ip_address or 'N/A' }}</td>
+                        <td class="px-6 py-4 align-middle whitespace-nowrap font-medium text-slate-500 dark:text-slate-400">
+                            {{ item.created_at.strftime('%Y-%m-%d %H:%M') if item.created_at else 'N/A' }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="9" class="px-6 py-20 text-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mx-auto mb-3 shadow-xs">
+                                <i class="fas fa-bullhorn text-lg"></i>
+                            </div>
+                            <p class="font-extrabold text-sm text-slate-900 dark:text-white">No campaigns found.</p>
+                            <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Incoming UTM traffic parameters will appear here.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

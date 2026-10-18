@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Leveraging AI in Web Design: A Game Changer | Lutan Tech Blog</title>
+	<meta name="description" content="Discover how artificial intelligence is revolutionizing web design, from automated content generation to personalized user experiences, and how to harness its power for your projects.">
+	<meta name="keywords" content="AI in web design, AI automation, personalized web experiences, AI content generation, AI design tools, web design innovation, Lutan Tech blog">
+	<link rel="canonical" href="https://lutan-tech.is-great.org/blog-post-ai-web-design">
+	<meta name="author" content="Lutan Tech">
+	<meta name="robots" content="index, follow">
+
+	<!-- Open Graph Meta Tags for Social Media -->
+	<meta property="og:title" content="Leveraging AI in Web Design: A Game Changer | Lutan Tech">
+	<meta property="og:description" content="Explore how AI is transforming web design for higher efficiency, intelligent automation, and personalized UX.">
+	<meta property="og:url" content="https://lutan-tech.is-great.org/blog-post-ai-web-design">
+	<meta property="og:site_name" content="Lutan Tech Blog">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:image" content="https://i.ibb.co/bRbj3dzy/image.png">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+	<meta property="og:image:alt" content="AI in Web Design Header">
+	<meta property="og:type" content="article">
+
+	<!-- Twitter Card Meta Tags -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Leveraging AI in Web Design: A Game Changer">
+	<meta name="twitter:description" content="Discover the impact of AI on modern web design with Lutan Tech.">
+	<meta name="twitter:image" content="https://i.ibb.co/bRbj3dzy/image.png">
+	
+	<link rel="icon" href="https://i.ibb.co/FbGTqdMC/me-4.jpg" type="image/x-icon">
+	
+	<script src="/static/assets/js/tailwind.js"></script>
+	<script>
+		tailwind.config = {
+			darkMode: 'class',
+			theme: {
+				extend: {
+					colors: {
+						lutan: {
+							green: '#009639',
+							darkgreen: '#007a2e',
+							lightgreen: '#e6f5eb',
+							red: '#e20613',
+							darkred: '#b8040f',
+							lightred: '#fde8e8',
+							dark: '#0f172a',
+							cardDark: '#1e293b'
+						}
+					}
+				}
+			}
+		}
+	</script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+	
+	<style>
+		:root {
+			--lutan-green: #009639;
+			--lutan-green-dark: #007a2e;
+			--lutan-green-light: #e6f5eb;
+			--lutan-red: #e20613;
+			--lutan-red-dark: #b8040f;
+			--lutan-red-light: #fde8e8;
+			--lutan-black: #0f172a;
+			--lutan-white: #ffffff;
+			--lutan-gray: #64748b;
+			--lutan-gray-light: #f8fafc;
+			--lutan-border: #e2e8f0;
+			--lutan-text: #1e293b;
+		}
+
+		.dark {
+			--lutan-black: #090d16;
+			--lutan-green-light: rgba(0, 150, 57, 0.15);
+			--lutan-red-light: rgba(226, 6, 19, 0.15);
+			--lutan-gray-light: #0f172a;
+			--lutan-border: #334155;
+			--lutan-text: #f8fafc;
+		}
+
+		body {
+			font-family: 'Inter', sans-serif;
+			background-color: var(--lutan-gray-light);
+			color: var(--lutan-text);
+			transition: background-color 0.3s ease, color 0.3s ease;
+		}
+
+		.soft-card {
+			background-color: var(--lutan-white);
+			border: 1px solid var(--lutan-border);
+			border-radius: 1rem;
+			box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02);
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+
+		.soft-card:hover {
+			transform: translateY(-4px);
+			border-color: var(--lutan-green);
+			box-shadow: 0 12px 24px -8px rgba(0, 150, 57, 0.2);
+		}
+
+		.dark .soft-card {
+			background-color: #1e293b;
+			border-color: var(--lutan-border);
+		}
+
+		.dark .soft-card:hover {
+			border-color: var(--lutan-green);
+			box-shadow: 0 14px 24px -8px rgba(0, 150, 57, 0.35);
+		}
+
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: #f1f5f9;
+		}
+
+		.dark ::-webkit-scrollbar-track {
+			background: #0f172a;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: var(--lutan-green);
+			border-radius: 9999px;
+		}
+
+		::-webkit-scrollbar-thumb:hover {
+			background: var(--lutan-green-dark);
+		}
+
+		.overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 2000;
+			background: rgba(15, 23, 42, 0.85);
+			backdrop-filter: blur(8px);
+			width: 100%;
+			height: 100%;
+			display: none;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.overlay.active {
+			display: flex;
+		}
+
+		.badge-pill {
+			border-radius: 0.5rem;
+			font-size: 0.7rem;
+			font-weight: 600;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.3rem;
+			padding: 0.25rem 0.6rem;
+			transition: all 0.2s ease;
+		}
+
+		.nav-link {
+			padding: 0.4rem 0.85rem;
+			border-radius: 0.6rem;
+			font-size: 0.8rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			transition: all 0.2s ease;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+		}
+		
+		.blog-content h2 {
+			font-size: 1.4rem;
+			font-weight: 800;
+			color: #0f172a;
+			margin-top: 2rem;
+			margin-bottom: 0.75rem;
+			display: flex;
+			align-items: center;
+			gap: 0.5rem;
+			letter-spacing: -0.02em;
+		}
+		
+		.dark .blog-content h2 {
+			color: #f8fafc;
+		}
+
+		.blog-content h2::before {
+			content: '';
+			display: inline-block;
+			width: 4px;
+			height: 1.25rem;
+			background-color: var(--lutan-green);
+			border-radius: 9999px;
+		}
+
+		.blog-content p {
+			margin-bottom: 1.25rem;
+			line-height: 1.75;
+			font-size: 0.95rem;
+		}
+
+		.quote-box {
+			border-left: 4px solid var(--lutan-green);
+			background-color: rgba(0, 150, 57, 0.05);
+			border-radius: 0 0.75rem 0.75rem 0;
+			padding: 1rem 1.25rem;
+			margin: 1.5rem 0;
+		}
+
+		.dark .quote-box {
+			background-color: rgba(0, 150, 57, 0.12);
+		}
+	</style>
+</head>
+
+<body class="min-h-screen flex flex-col justify-between dark:bg-slate-950">
+
+	<script>
+		if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+	</script>
+	
+	<header class="fixed top-0 left-0 w-full z-50 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-sm border-b-2 border-lutan-green">
+		<nav class="container mx-auto px-4 py-2.5 flex justify-between items-center">
+			<a href="/" class="text-xl font-black tracking-wider flex items-center gap-2 group">
+				<div class="w-8 h-8 rounded-lg bg-lutan-green flex items-center justify-center text-white text-sm shadow-md group-hover:bg-lutan-red transition-colors">
+					<i class="fas fa-code"></i>
+				</div>
+				<span class="text-lutan-green dark:text-green-400 font-extrabold tracking-tight">LUTAN</span>
+				<span class="bg-lutan-red text-white px-2 py-0.5 rounded-md text-xs font-black uppercase tracking-wider shadow-sm">TECH</span>
+			</a>
+			
+			<div class="hidden md:flex items-center space-x-1 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 p-1 border border-slate-200/80 dark:border-slate-700/60 shadow-inner">
+				<a href="/#home" class="nav-link text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 shadow-none hover:shadow-xs">
+					<i class="fas fa-home text-xs opacity-75"></i> Home
+				</a>
+				<a href="/#services" class="nav-link text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 shadow-none hover:shadow-xs">
+					<i class="fas fa-concierge-bell text-xs opacity-75"></i> Services
+				</a>
+				<a href="/projects" class="nav-link text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 shadow-none hover:shadow-xs">
+					<i class="fas fa-laptop-code text-xs opacity-75"></i> Projects
+				</a>
+				<a href="/blogs" class="nav-link bg-lutan-green text-white shadow-sm">
+					<i class="fas fa-blog text-xs"></i> Blog
+				</a>
+				<a href="/#contact" class="nav-link text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-white dark:hover:bg-slate-700 shadow-none hover:shadow-xs">
+					<i class="fas fa-envelope text-xs opacity-75"></i> Contact
+				</a>
+			</div>
+			
+			<div class="flex items-center gap-2">
+				<button id="theme-toggle" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 focus:outline-none transition-all dark:bg-slate-800 dark:hover:bg-slate-700 flex justify-center items-center border border-slate-200 dark:border-slate-700 shadow-sm" aria-label="Toggle Theme">
+					<i id="sun-icon" class="fas fa-sun w-4 h-4 block dark:hidden text-amber-500"></i>
+					<i id="moon-icon" class="fas fa-moon w-4 h-4 hidden dark:block text-emerald-400"></i>
+				</button>
+
+				<button id="mobile-menu-button" class="md:hidden text-slate-700 focus:outline-none p-2 rounded-lg hover:bg-slate-100 transition-colors dark:text-white dark:hover:bg-slate-800">
+					<i class="fas fa-bars text-lg"></i>
+				</button>
+			</div>
+		</nav>
+
+		<!-- Mobile Navigation Menu -->
+		<div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-200 py-2 shadow-lg dark:bg-slate-900 dark:border-slate-800">
+			<a href="/#home" class="flex items-center gap-3 px-5 py-2.5 text-xs font-bold uppercase text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+				<i class="fas fa-home w-4 text-lutan-green"></i> Home
+			</a>
+			<a href="/#services" class="flex items-center gap-3 px-5 py-2.5 text-xs font-bold uppercase text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+				<i class="fas fa-concierge-bell w-4 text-lutan-green"></i> Services
+			</a>
+			<a href="/projects" class="flex items-center gap-3 px-5 py-2.5 text-xs font-bold uppercase text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+				<i class="fas fa-laptop-code w-4 text-lutan-green"></i> Projects
+			</a>
+			<a href="/blogs" class="flex items-center gap-3 px-5 py-2.5 text-xs font-bold uppercase text-lutan-green bg-green-50 dark:bg-green-950/40">
+				<i class="fas fa-blog w-4 text-lutan-green"></i> Blog
+			</a>
+			<a href="/#contact" class="flex items-center gap-3 px-5 py-2.5 text-xs font-bold uppercase text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800">
+				<i class="fas fa-envelope w-4 text-lutan-green"></i> Contact
+			</a>
+		</div>
+	</header>
+	
+	<main class="pt-20 pb-16 flex-grow">
+		<article class="py-6">
+			<div class="container mx-auto px-4 max-w-4xl">
+				
+				<!-- Breadcrumbs -->
+				<nav class="flex items-center gap-2 text-xs font-semibold text-slate-500 dark:text-slate-400 mb-6" aria-label="Breadcrumb">
+					<a href="/" class="hover:text-lutan-green transition-colors"><i class="fas fa-home text-[10px]"></i> Home</a>
+					<i class="fas fa-chevron-right text-[8px] text-slate-400"></i>
+					<a href="/blogs" class="hover:text-lutan-green transition-colors">Blog</a>
+					<i class="fas fa-chevron-right text-[8px] text-slate-400"></i>
+					<span class="text-slate-800 dark:text-slate-200 font-bold truncate">Leveraging AI in Web Design</span>
+				</nav>
+
+				<!-- Article Header Card -->
+				<header class="flex flex-col items-center text-center mb-8">
+					<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-lutan-green dark:bg-green-950/60 dark:text-emerald-400 text-[11px] font-extrabold uppercase tracking-wider mb-3.5 border border-green-200 dark:border-green-800">
+						<i class="fas fa-brain text-[10px]"></i> AI & Web Innovation
+					</div>
+					<h1 class="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight dark:text-white leading-tight">
+						Leveraging AI in Web Design: <span class="text-lutan-green">A Game Changer</span>
+					</h1>
+					
+					<!-- Author Meta Bar -->
+					<div class="mt-6 flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/70 py-2.5 px-5 rounded-2xl border border-slate-200 dark:border-slate-700/60">
+						<div class="flex items-center gap-2">
+							<img src="https://i.ibb.co/FbGTqdMC/me-4.jpg" alt="Lutan Tech Author" class="w-6 h-6 rounded-full border border-lutan-green object-cover">
+							<span class="font-bold text-slate-800 dark:text-slate-200">Lutan Tech Editorial</span>
+						</div>
+						<span class="text-slate-300 dark:text-slate-700">•</span>
+						<div class="flex items-center gap-1.5">
+							<i class="far fa-calendar-alt text-lutan-green"></i>
+							<time datetime="2025-07-05">July 05, 2025</time>
+						</div>
+						<span class="text-slate-300 dark:text-slate-700">•</span>
+						<div class="flex items-center gap-1.5">
+							<i class="far fa-clock text-lutan-green"></i>
+							<span>5 Min Read</span>
+						</div>
+					</div>
+				</header>
+
+				<!-- Featured Article Image Header -->
+				<div class="relative cursor-pointer overflow-hidden rounded-2xl mb-10 border border-slate-200 dark:border-slate-800 shadow-lg group" onclick="openImageModal('https://i.ibb.co/bRbj3dzy/image.png')">
+					<img src="https://i.ibb.co/bRbj3dzy/image.png" alt="AI in Web Design" class="w-full h-auto max-h-[460px] object-cover transition-transform duration-500 group-hover:scale-102">
+					<div class="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-xs">
+						<span class="text-white text-xs font-bold border border-white/40 px-4 py-2 rounded-xl uppercase tracking-wider bg-lutan-green/90 shadow-md flex items-center gap-2">
+							<i class="fas fa-magnifying-glass-plus"></i> Expand Hero Image
+						</span>
+					</div>
+				</div>
+
+				<!-- Article Content Container -->
+				<div class="soft-card p-6 sm:p-10 text-slate-700 dark:text-slate-300 blog-content leading-relaxed">
+					<p class="text-base sm:text-lg font-medium text-slate-800 dark:text-slate-200 leading-relaxed mb-6">
+						Artificial Intelligence (AI) is no longer confined to sci-fi movies or back-office data processing; it's actively reshaping consumer expectations, design patterns, and how digital products are conceived. From automating repetitive layout tasks to generating tailored real-time user journeys, AI is proving to be a true game-changer in how we build high-converting websites.
+					</p>
+
+					<div class="quote-box">
+						<p class="italic text-slate-800 dark:text-slate-200 font-semibold mb-0">
+							"The future of web development is not replacing human design instinct with algorithmic logic — it is augmenting human creativity with rapid intelligent automation."
+						</p>
+					</div>
+
+					<h2>Automated Layouts & Rapid Wireframing</h2>
+					<p>
+						AI-powered design engines can now synthesize vast libraries of user behavior to draft responsive website layouts, suggest harmonious color schemes, and construct modular wireframes in seconds. Tools like Uizard, Adobe Sensei, and Figma AI algorithms accelerate the exploratory phase. Designers no longer spend initial billable hours laying out basic grids; instead, they focus immediately on brand expression, custom micro-interactions, and conversion engineering.
+					</p>
+
+					<h2>Personalized User Experience (UX) Engine</h2>
+					<p>
+						Traditional static websites deliver the exact same content regardless of who clicks the link. AI-driven websites adapt dynamically to each user. By interpreting browsing patterns, geographical context, and real-time click pathways, intelligent platforms recommend relevant products, adjust messaging tone, and reorder navigation items on the fly. This contextual personalization dramatically improves user retention and client conversion rates.
+					</p>
+
+					<h2>Content Generation & SEO Optimization</h2>
+					<p>
+						High-impact copy is key to effective web design. Advanced generative language models empower copywriters by generating search-optimized headlines, drafting initial section bodies, and localizing copy into multiple languages effortlessly. Furthermore, semantic SEO assistants inspect structural markup in real time to guarantee your pages meet Google search quality guidelines.
+					</p>
+
+					<h2>Accessibility & Automated Auditing</h2>
+					<p>
+						Building inclusive digital spaces is a core priority at Lutan Tech. AI utility tools automatically analyze visual contrast, generate descriptive ARIA tags, and simulate screen-reader workflows. By identifying accessibility compliance bottlenecks early in development, teams can craft inclusive experiences for users with varying visual or physical abilities without delaying launch dates.
+					</p>
+
+					<h2>Predictive Analytics & Intelligent Iteration</h2>
+					<p>
+						Rather than relying solely on post-launch analytics heatmaps, predictive AI models simulate user interaction patterns before code even reaches production. This data-backed preview enables design teams to optimize CTA button placements, simplify checkout funnels, and restructure information architecture with high confidence prior to deployment.
+					</p>
+
+					<div class="my-8 p-5 bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800/60 rounded-xl flex items-start gap-3">
+						<i class="fas fa-lightbulb text-lutan-green text-xl mt-0.5 shrink-0"></i>
+						<div>
+							<h4 class="text-sm font-extrabold text-slate-900 dark:text-white uppercase tracking-wider mb-1">Key Takeaway for Business Owners</h4>
+							<p class="text-xs text-slate-600 dark:text-slate-300 mb-0">
+								Integrating AI into your web ecosystem doesn't mean sacrificing authentic brand strategy. Harnessing AI for layout generation and content optimization frees up vital resources to refine user security, site speed, and human-driven support.
+							</p>
+						</div>
+					</div>
+
+					<p>
+						While AI is an extraordinarily capable assistant, human empathy, artistic taste, and domain strategy remain at the center of modern digital solutions. The web standard of tomorrow belongs to creators who harmonize human craftsmanship with artificial intelligence.
+					</p>
+
+					<!-- Article Footer & Tags -->
+					<div class="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-4">
+						<div class="flex flex-wrap items-center gap-1.5">
+							<span class="text-xs font-bold text-slate-500 mr-1">Tags:</span>
+							<span class="badge-pill bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+								<i class="fas fa-robot text-lutan-green"></i> AI Tools
+							</span>
+							<span class="badge-pill bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+								<i class="fas fa-palette text-lutan-green"></i> Web Design
+							</span>
+							<span class="badge-pill bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+								<i class="fas fa-bolt text-lutan-green"></i> Automation
+							</span>
+						</div>
+
+						<!-- Social Share Buttons -->
+						<div class="flex items-center gap-2">
+							<span class="text-xs font-bold text-slate-500 mr-1">Share:</span>
+							<a href="https://twitter.com/intent/tweet?url=https://lutan-tech.is-great.org/blog-post-ai-web-design&text=Leveraging%20AI%20in%20Web%20Design" target="_blank" class="w-7 h-7 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-lutan-green hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center text-xs transition-colors" aria-label="Share on X">
+								<i class="fab fa-x-twitter"></i>
+							</a>
+							<a href="https://www.linkedin.com/sharing/share-offsite/?url=https://lutan-tech.is-great.org/blog-post-ai-web-design" target="_blank" class="w-7 h-7 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-lutan-green hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center text-xs transition-colors" aria-label="Share on LinkedIn">
+								<i class="fab fa-linkedin-in"></i>
+							</a>
+							<button onclick="navigator.clipboard.writeText(window.location.href); alert('Article link copied to clipboard!');" class="w-7 h-7 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-lutan-green hover:text-white text-slate-600 dark:text-slate-300 flex items-center justify-center text-xs transition-colors" aria-label="Copy Link">
+								<i class="fas fa-link"></i>
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<!-- Author Bio Card -->
+				<div class="soft-card p-6 mt-8 flex flex-col sm:flex-row items-center sm:items-start gap-5">
+					<img src="https://i.ibb.co/FbGTqdMC/me-4.jpg" alt="Lutan Tech Team" class="w-16 h-16 rounded-2xl border-2 border-lutan-green object-cover shrink-0 shadow-md">
+					<div class="text-center sm:text-left">
+						<div class="flex items-center justify-center sm:justify-start gap-2 mb-1">
+							<h3 class="text-base font-extrabold text-slate-900 dark:text-white">Written by Lutan Tech Team</h3>
+							<span class="bg-green-100 text-lutan-green dark:bg-green-950/80 dark:text-emerald-400 text-[10px] font-extrabold px-2 py-0.5 rounded-md">VERIFIED</span>
+						</div>
+						<p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
+							Lutan Tech specializes in developing high-performance web applications, robust cybersecurity integrations, intuitive UI/UX design, and AI digital strategies.
+						</p>
+						<a href="/#contact" class="inline-flex items-center gap-1.5 text-xs font-bold text-lutan-green hover:text-lutan-darkgreen dark:hover:text-emerald-400 transition-colors">
+							Work with our engineering team <i class="fas fa-arrow-right text-[10px]"></i>
+						</a>
+					</div>
+				</div>
+
+				<!-- Related Articles Section -->
+				<div class="mt-14">
+					<div class="flex items-center justify-between mb-6">
+						<div>
+							<h3 class="text-xl font-black text-slate-900 dark:text-white tracking-tight">
+								Related <span class="text-lutan-green">Articles</span>
+							</h3>
+							<p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">More insights from our engineering blog</p>
+						</div>
+						<a href="/blogs" class="text-xs font-extrabold text-lutan-green hover:underline flex items-center gap-1">
+							View All <i class="fas fa-arrow-right text-[10px]"></i>
+						</a>
+					</div>
+
+					<div class="grid gap-5 md:grid-cols-2">
+						<!-- Related Card 1 -->
+						<div class="soft-card p-4 flex flex-col justify-between group">
+							<div>
+								<div class="overflow-hidden rounded-lg mb-3 border border-slate-200 dark:border-slate-700/80 h-36 relative">
+									<img src="https://i.ibb.co/RT8Q3YwY/image.png" alt="Cybersecurity Post" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+									<span class="absolute top-2 left-2 bg-slate-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-xs">
+										Cybersecurity
+									</span>
+								</div>
+								<span class="text-[10px] font-semibold text-lutan-green dark:text-emerald-400 uppercase tracking-wider">
+									September 2025
+								</span>
+								<h4 class="text-base font-bold text-slate-900 dark:text-white mt-1 mb-2 leading-snug group-hover:text-lutan-green transition-colors">
+									Building End-to-End Encrypted Messaging Workspaces
+								</h4>
+								<p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
+									A deep dive into Fernet cryptography, WebSocket real-time synchronization, and zero-trust backend architectures.
+								</p>
+							</div>
+							<a href="/blogs" class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-lutan-green hover:text-lutan-darkgreen dark:hover:text-emerald-400">
+								Read Full Article <i class="fas fa-chevron-right text-[9px]"></i>
+							</a>
+						</div>
+
+						<!-- Related Card 2 -->
+						<div class="soft-card p-4 flex flex-col justify-between group">
+							<div>
+								<div class="overflow-hidden rounded-lg mb-3 border border-slate-200 dark:border-slate-700/80 h-36 relative">
+									<img src="https://i.ibb.co/QjqDkBMS/image.png" alt="E-commerce Post" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
+									<span class="absolute top-2 left-2 bg-slate-900/80 text-white text-[10px] font-bold px-2 py-0.5 rounded backdrop-blur-xs">
+										E-Commerce UX
+									</span>
+								</div>
+								<span class="text-[10px] font-semibold text-lutan-green dark:text-emerald-400 uppercase tracking-wider">
+									August 2025
+								</span>
+								<h4 class="text-base font-bold text-slate-900 dark:text-white mt-1 mb-2 leading-snug group-hover:text-lutan-green transition-colors">
+									Optimizing Modern E-Commerce Conversion Rates
+								</h4>
+								<p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
+									Key technical strategies for reducing cart abandonment, optimizing mobile render speed, and streamlining payment gateways.
+								</p>
+							</div>
+							<a href="/blogs" class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-lutan-green hover:text-lutan-darkgreen dark:hover:text-emerald-400">
+								Read Full Article <i class="fas fa-chevron-right text-[9px]"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</article>
+	</main>
+
+	<!-- Image Modal Lightbox -->
+	<div id="image-modal" class="overlay" onclick="handleOverlayClick(event)">
+		<button class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-lutan-red hover:bg-lutan-darkred text-white flex items-center justify-center text-lg shadow-xl transition-transform hover:scale-105" onclick="toggleOverlay()" aria-label="Close Preview">
+			<i class="fas fa-xmark"></i>
+		</button>
+		<div class="p-3 max-w-4xl w-full">
+			<div class="relative bg-slate-900 p-1.5 rounded-xl shadow-2xl border border-lutan-green overflow-hidden">
+				<img id="modal-img" src="" alt="Blog Preview Image" class="w-full max-h-[75vh] object-contain rounded-lg">
+			</div>
+		</div>
+	</div>
+
+	<!-- Global Footer -->
+	<footer class="bg-slate-900 text-slate-300 py-6 border-t-4 border-lutan-red mt-auto">
+		<div class="container mx-auto px-4 text-center">
+			<div class="flex items-center justify-center gap-2 text-lg font-black mb-2">
+				<span class="text-lutan-green">LUTAN</span>
+				<span class="bg-lutan-red text-white px-2 py-0.5 rounded text-xs font-extrabold">TECH</span>
+			</div>
+			<p class="text-xs font-medium text-slate-400">&copy; <span id="current-year"></span> <span class="text-lutan-green font-bold">Lutan Tech</span>. All rights reserved.</p>
+			
+			<div class="mt-3 flex justify-center space-x-4 text-xs font-semibold uppercase tracking-wider text-slate-400">
+				<a href="#" class="hover:text-lutan-green transition-colors flex items-center gap-1">
+					<i class="fas fa-shield-alt text-[10px]"></i> Privacy Policy
+				</a>
+				<span class="text-slate-700">|</span>
+				<a href="#" class="hover:text-lutan-green transition-colors flex items-center gap-1">
+					<i class="fas fa-file-contract text-[10px]"></i> Terms of Service
+				</a>
+			</div>
+			
+			<div class="mt-4 flex justify-center space-x-2.5">
+				<a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-lutan-green text-white flex items-center justify-center transition-all shadow-md hover:-translate-y-0.5 text-xs" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+				<a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-lutan-green text-white flex items-center justify-center transition-all shadow-md hover:-translate-y-0.5 text-xs" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+				<a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-lutan-green text-white flex items-center justify-center transition-all shadow-md hover:-translate-y-0.5 text-xs" aria-label="GitHub"><i class="fab fa-github"></i></a>
+				<a href="#" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-lutan-red text-white flex items-center justify-center transition-all shadow-md hover:-translate-y-0.5 text-xs" aria-label="Email"><i class="fas fa-envelope"></i></a>
+			</div>
+		</div>
+	</footer>
+
+	<!-- Structured Schema Data -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "Article",
+		"headline": "Leveraging AI in Web Design: A Game Changer",
+		"image": "https://i.ibb.co/bRbj3dzy/image.png",
+		"datePublished": "2025-07-05",
+		"dateModified": "2025-07-05",
+		"author": {
+			"@type": "Organization",
+			"name": "Lutan Tech",
+			"url": "https://lutan-tech.is-great.org"
+		},
+		"publisher": {
+			"@type": "Organization",
+			"name": "Lutan Tech",
+			"logo": {
+				"@type": "ImageObject",
+				"url": "https://i.ibb.co/KpHnKVW0/LUTAN-LOGO.png"
+			}
+		},
+		"description": "Discover how artificial intelligence is revolutionizing web design, from automated content generation to personalized user experiences, and how to harness its power for your projects."
+	}
+	</script>
+
+	<script>
+		// Dynamic Copyright Year
+		document.getElementById('current-year').textContent = new Date().getFullYear();
+
+		// Theme Switcher Logic
+		const themeToggleBtn = document.getElementById('theme-toggle');
+		const sunIcon = document.getElementById('sun-icon');
+		const moonIcon = document.getElementById('moon-icon');
+
+		themeToggleBtn.addEventListener('click', () => {
+			document.documentElement.classList.toggle('dark');
+			if (document.documentElement.classList.contains('dark')) {
+				localStorage.theme = 'dark';
+				sunIcon.classList.add('hidden');
+				moonIcon.classList.remove('hidden');
+			} else {
+				localStorage.theme = 'light';
+				sunIcon.classList.remove('hidden');
+				moonIcon.classList.add('hidden');
+			}
+		});
+
+		if (document.documentElement.classList.contains('dark')) {
+			sunIcon.classList.add('hidden');
+			moonIcon.classList.remove('hidden');
+		} else {
+			sunIcon.classList.remove('hidden');
+			moonIcon.classList.add('hidden');
+		}
+
+		// Mobile Navigation Toggle
+		const mobileMenuButton = document.getElementById('mobile-menu-button');
+		const mobileMenu = document.getElementById('mobile-menu');
+
+		mobileMenuButton.addEventListener('click', () => {
+			mobileMenu.classList.toggle('hidden');
+		});
+
+		// Image Modal Lightbox Logic
+		const modalOverlay = document.getElementById('image-modal');
+		const modalImg = document.getElementById('modal-img');
+
+		function toggleOverlay() {
+			modalOverlay.classList.toggle('active');
+		}
+
+		function openImageModal(imgSrc) {
+			modalImg.src = imgSrc;
+			toggleOverlay();
+		}
+
+		function handleOverlayClick(e) {
+			if (e.target === modalOverlay) {
+				toggleOverlay();
+			}
+		}
+	</script>
+</body>
+
+</html>

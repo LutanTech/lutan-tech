@@ -1,0 +1,242 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Blogs{% endblock %}
+{% block page_heading %}Blog Management{% endblock %}
+{% block page_description %}Create, edit and manage articles, categories, tags and published content.{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Articles</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ "{:,}".format(blogs|length) }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Articles in your database</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center border border-blue-200/50 dark:border-blue-800/50">
+                <i class="fas fa-newspaper text-lg"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Categories</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ "{:,}".format(categories|length) }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Distinct blog categories</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-green-500/10 text-lutan-green flex items-center justify-center border border-green-200/50 dark:border-green-800/50">
+                <i class="fas fa-layer-group text-lg"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Create Content</span>
+                <p class="text-sm font-bold text-slate-900 dark:text-white mt-2">Write a new article</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Share your next insight</p>
+            </div>
+            <a href="{{ url_for('admin_add_blog') }}" class="w-11 h-11 rounded-xl bg-lutan-green hover:bg-lutan-darkgreen text-white flex items-center justify-center transition-all shadow-md hover:scale-105" title="Add article">
+                <i class="fas fa-plus text-sm"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="soft-card overflow-hidden">
+        <div class="px-5 sm:px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 bg-slate-50/50 dark:bg-slate-900/30">
+            <div>
+                <h2 class="font-black text-base text-slate-900 dark:text-white">Article Directory</h2>
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Manage article details, categories, tags and publication links.</p>
+            </div>
+            <a href="{{ url_for('admin_add_blog') }}" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider px-4 py-3 rounded-xl inline-flex items-center justify-center gap-2 shadow-sm transition-all">
+                <i class="fas fa-plus"></i> New Article
+            </a>
+        </div>
+
+        <div class="p-4 sm:p-5 grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="relative">
+                <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+                <input id="blogSearch" type="search" placeholder="Search articles, summaries or tags..." class="w-full pl-9 pr-3 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-800 dark:text-white outline-none focus:border-lutan-green">
+            </div>
+
+            <select id="categoryFilter" class="w-full px-3 py-3 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-sm text-slate-800 dark:text-white outline-none focus:border-lutan-green">
+                <option value="">All categories</option>
+                {% for category in categories %}
+                <option value="{{ category|lower }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+
+            <div class="flex items-center justify-between gap-3 px-3 py-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+                <span class="text-xs font-bold text-slate-500 dark:text-slate-400">Matching articles</span>
+                <span id="blogCount" class="text-sm font-black text-slate-900 dark:text-white">{{ blogs|length }}</span>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-100/70 dark:bg-slate-900/80 border-y border-slate-200 dark:border-slate-800 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                        <th class="px-5 sm:px-6 py-4">Article</th>
+                        <th class="px-5 py-4">Category & Date</th>
+                        <th class="px-5 py-4">Tags</th>
+                        <th class="px-5 py-4">Details</th>
+                        <th class="px-5 sm:px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody id="blogsTable" class="divide-y divide-slate-200 dark:divide-slate-800/80 text-xs">
+                    {% for item in blogs %}
+                    <tr class="blog-row hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors align-top"
+                        data-title="{{ item.title|default('', true)|lower }}"
+                        data-summary="{{ item.summary|default('', true)|lower }}"
+                        data-category="{{ item.category|default('', true)|lower }}"
+                        data-tags="{{ (item.tags or [])|join(' ')|lower }}">
+
+                        <td class="px-5 sm:px-6 py-4 min-w-[280px]">
+                            <div class="flex items-start gap-3">
+                                {% if item.image %}
+                                <img src="{{ item.image if item.image.startswith('http') else (item.image if item.image.startswith('/static/') else '/static/' ~ item.image.lstrip('/')) }}"
+                                     alt="{{ item.title }}"
+                                     loading="lazy"
+                                     class="w-16 h-14 rounded-xl object-cover border border-slate-200 dark:border-slate-700 shrink-0">
+                                {% else %}
+                                <div class="w-16 h-14 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 shrink-0 border border-slate-200 dark:border-slate-700">
+                                    <i class="fas fa-image text-lg"></i>
+                                </div>
+                                {% endif %}
+
+                                <div class="min-w-0">
+                                    <span class="font-black text-sm text-slate-900 dark:text-white block leading-snug">{{ item.title|safe }}</span>
+                                    <p class="text-slate-500 dark:text-slate-400 text-[11px] mt-1.5 leading-relaxed line-clamp-2">{{ item.summary|safe or 'No summary available.' }}</p>
+                                    <span class="text-[10px] text-slate-400 font-mono mt-2 block break-all">{{ item.slug or 'No slug' }}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="px-5 py-4 min-w-[160px]">
+                            {% if item.category %}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-100/60 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 font-bold text-[11px] border border-blue-200 dark:border-blue-800">
+                                <i class="fas fa-folder text-[9px]"></i> {{ item.category }}
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[11px] font-semibold">Uncategorized</span>
+                            {% endif %}
+
+                            <span class="block text-[11px] text-slate-400 mt-2">
+                                <i class="far fa-calendar-alt mr-1"></i>{{ item.date or (item.created_at.strftime('%d %b %Y') if item.created_at else 'Date unavailable') }}
+                            </span>
+
+                            <span class="block text-[11px] text-slate-400 mt-1">
+                                <i class="far fa-clock mr-1"></i>{{ item.reading_time or 1 }} min read
+                            </span>
+                        </td>
+
+                        <td class="px-5 py-4 min-w-[150px] max-w-xs">
+                            <div class="flex flex-wrap gap-1.5 max-h-[90px] overflow-y-auto overflow-x-hidden">
+                                {% for tag in item.tags|from_json %}
+                                <span style="display:inline-block; writing-mode:horizontal-tb; word-break:normal; overflow-wrap:normal; white-space:normal; width:auto; max-width:100%;"
+                                      class="px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium text-[10px] border border-slate-200 dark:border-slate-700">{{ tag }}</span>
+                                {% endfor %}
+                            </div>
+                        </td>
+
+                        <td class="px-5 py-4 min-w-[140px]">
+                            <div class="flex flex-col items-start gap-3">
+                                <div class="inline-flex items-center gap-2 text-slate-600 dark:text-slate-400 text-[11px]">
+                                    <i class="{{ item.icon or 'fas fa-code' }}"></i>
+                                    <span>{{ item.icon or 'fas fa-code' }}</span>
+                                </div>
+
+                                {% if item.slug %}
+                                <a href="{{ url_for('blog', slug=item.slug) }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-lutan-green hover:underline font-bold text-[11px]">
+                                    <i class="fas fa-external-link-alt text-[10px]"></i> View article
+                                </a>
+                                {% endif %}
+                            </div>
+                        </td>
+
+                        <td class="px-5 sm:px-6 py-4 text-right whitespace-nowrap">
+                            <div class="flex items-center justify-end gap-2">
+                                <a href="{{ url_for('admin_edit_blog', slug=item.slug) }}"
+                                   class="w-9 h-9 rounded-lg inline-flex items-center justify-center bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800 transition-all"
+                                   title="Edit article"
+                                   aria-label="Edit {{ item.title }}">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <form action="{{ url_for('admin_delete_blog', slug=item.slug) }}" method="POST" onsubmit="return confirm('Delete this article? This action cannot be undone.');">
+                                    <button type="submit"
+                                            class="w-9 h-9 rounded-lg inline-flex items-center justify-center bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 transition-all"
+                                            title="Delete article"
+                                            aria-label="Delete {{ item.title }}">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr id="emptyBlogs">
+                        <td colspan="5" class="px-6 py-20 text-center">
+                            <div class="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mx-auto mb-4">
+                                <i class="fas fa-newspaper text-xl"></i>
+                            </div>
+                            <p class="font-extrabold text-sm text-slate-900 dark:text-white">No articles yet</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Create your first article to get started.</p>
+                            <a href="{{ url_for('admin_add_blog') }}" class="mt-4 inline-flex items-center gap-2 bg-lutan-green hover:bg-lutan-darkgreen text-white font-bold text-xs px-4 py-2.5 rounded-xl">
+                                <i class="fas fa-plus"></i> Create article
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+
+                    {% if blogs %}
+                    <tr id="noBlogResults" class="hidden">
+                        <td colspan="5" class="px-6 py-12 text-center">
+                            <i class="fas fa-search text-2xl text-slate-400 mb-3"></i>
+                            <p class="text-sm font-semibold text-slate-500 dark:text-slate-400">No articles match your search.</p>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const search = document.getElementById('blogSearch');
+    const category = document.getElementById('categoryFilter');
+    const rows = Array.from(document.querySelectorAll('.blog-row'));
+    const count = document.getElementById('blogCount');
+    const empty = document.getElementById('noBlogResults');
+
+    function filterBlogs() {
+        const query = search.value.trim().toLowerCase();
+        const selectedCategory = category.value.toLowerCase();
+        let visible = 0;
+
+        rows.forEach(row => {
+            const matchesQuery = ['title', 'summary', 'category', 'tags'].some(key =>
+                (row.dataset[key] || '').includes(query)
+            );
+            const matchesCategory = !selectedCategory || row.dataset.category === selectedCategory;
+            const show = matchesQuery && matchesCategory;
+
+            row.classList.toggle('hidden', !show);
+            if (show) visible++;
+        });
+
+        count.textContent = visible;
+
+        if (empty) {
+            empty.classList.toggle('hidden', visible !== 0);
+        }
+    }
+
+    search.addEventListener('input', filterBlogs);
+    category.addEventListener('change', filterBlogs);
+});
+</script>
+{% endblock %}

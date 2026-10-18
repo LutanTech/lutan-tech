@@ -1,0 +1,330 @@
+    {% extends "base.html"%}    
+    {% block content%}
+    {% block title %}<title> Lutan Tech | Blog - Insights & Trends in Tech </title>{% endblock%}
+    {% block meta_desc %}
+    <meta name="description" content="Read the latest articles and insights from Lutan Tech on web development, UI/UX design, SEO strategies and AI integration. Stay updated with industry trends.">
+    <meta name="keywords" content="Lutan Tech blog, web development trends, UI/UX insights, SEO strategies, AI news, tech articles, industry trends, web design blog, Lutan Tech insights">
+    {% endblock %}
+
+	<style>
+		:root {
+			--lutan-green: #009639;
+			--lutan-green-dark: #007a2e;
+			--lutan-green-light: #e6f5eb;
+			--lutan-red: #e20613;
+			--lutan-red-dark: #b8040f;
+			--lutan-red-light: #fde8e8;
+			--lutan-black: #0f172a;
+			--lutan-white: #ffffff;
+			--lutan-gray: #64748b;
+			--lutan-gray-light: #f8fafc;
+			--lutan-border: #e2e8f0;
+			--lutan-text: #1e293b;
+		}
+
+		.dark {
+			--lutan-black: #090d16;
+			--lutan-green-light: rgba(0, 150, 57, 0.15);
+			--lutan-red-light: rgba(226, 6, 19, 0.15);
+			--lutan-gray-light: #0f172a;
+			--lutan-border: #334155;
+			--lutan-text: #f8fafc;
+		}
+
+		body {
+			font-family: 'Inter', sans-serif;
+			background-color: var(--lutan-gray-light);
+			color: var(--lutan-text);
+			transition: background-color 0.3s ease, color 0.3s ease;
+		}
+
+		.soft-card {
+			background-color: var(--lutan-white);
+			border: 1px solid var(--lutan-border);
+			border-radius: 1rem;
+			box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02);
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+
+		.soft-card:hover {
+			transform: translateY(-4px);
+			border-color: var(--lutan-green);
+			box-shadow: 0 12px 24px -8px rgba(0, 150, 57, 0.2);
+		}
+
+		.dark .soft-card {
+			background-color: #1e293b;
+			border-color: var(--lutan-border);
+		}
+
+		.dark .soft-card:hover {
+			border-color: var(--lutan-green);
+			box-shadow: 0 14px 24px -8px rgba(0, 150, 57, 0.35);
+		}
+
+		.badge-pill {
+			border-radius: 0.5rem;
+			font-size: 0.75rem;
+			font-weight: 600;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.35rem;
+			padding: 0.25rem 0.65rem;
+			transition: all 0.2s ease;
+		}
+
+		.nav-link {
+			padding: 0.4rem 0.85rem;
+			border-radius: 0.6rem;
+			font-size: 0.8rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			transition: all 0.2s ease;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+		}
+
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: #f1f5f9;
+		}
+
+		.dark ::-webkit-scrollbar-track {
+			background: #0f172a;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: var(--lutan-green);
+			border-radius: 9999px;
+		}
+
+		::-webkit-scrollbar-thumb:hover {
+			background: var(--lutan-green-dark);
+		}
+
+		@keyframes float-slow {
+			0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+			50% { transform: translateY(-20px) rotate(180deg) scale(1.05); }
+		}
+
+		@keyframes float-reverse {
+			0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+			50% { transform: translateY(20px) rotate(-180deg) scale(0.95); }
+		}
+
+		.bg-epic-grid {
+			background-image: radial-gradient(rgba(0, 150, 57, 0.18) 1.2px, transparent 1.2px);
+			background-size: 28px 28px;
+		}
+        .art-content{
+            p{
+                font-size:small;
+            }
+        }
+
+		.dark .bg-epic-grid {
+			background-image: radial-gradient(rgba(0, 220, 100, 0.22) 1.2px, transparent 1.2px);
+		}
+
+		.svg-glow {
+			filter: drop-shadow(0 0 25px rgba(0, 150, 57, 0.45));
+			transition: filter 0.3s ease, opacity 0.3s ease;
+		}
+
+		.dark .svg-glow {
+			filter: drop-shadow(0 0 35px rgba(0, 220, 100, 0.6)) brightness(1.2);
+		}
+
+		.floating-circle-1 {
+			animation: float-slow 14s ease-in-out infinite;
+		}
+
+		.floating-circle-2 {
+			animation: float-reverse 18s ease-in-out infinite;
+		}
+
+		.filter-btn.active {
+			background-color: var(--lutan-green);
+			color: #ffffff;
+			border-color: var(--lutan-green);
+		}
+	</style>
+
+    <div style="margin:auto">
+		<div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
+			<div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-emerald-500/20 dark:bg-emerald-500/30 blur-3xl floating-circle-1"></div>
+			<div class="absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-teal-500/20 dark:bg-teal-500/30 blur-3xl floating-circle-2"></div>
+			<div class="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-lutan-green/20 blur-3xl floating-circle-1"></div>
+		</div>
+
+		<!-- Hero Banner -->
+		<section class="py-12 md:py-16 relative z-10">
+			<div class="container mx-auto px-4 max-w-7xl">
+				<div class="flex flex-col items-center text-center max-w-3xl mx-auto">
+					<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-green-100 text-lutan-green dark:bg-green-950/60 dark:text-emerald-400 text-xs font-bold tracking-wide mb-4 border border-green-200 dark:border-green-800 shadow-sm">
+						<i class="fas fa-newspaper text-xs"></i> Knowledge Base & Insights
+					</div>
+					<h1 class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
+						Blog <span class="bg-gradient-to-r from-lutan-green via-emerald-500 to-teal-400 bg-clip-text text-transparent">Zone</span>
+					</h1>
+					<p class="text-slate-600 dark:text-slate-300 text-xs md:text-sm font-medium max-w-2xl leading-relaxed mb-6">
+						Articles, tutorials, and strategy guides covering modern web engineering, technical SEO, UI/UX design systems, and AI integrations.
+					</p>
+					<div class="w-16 h-1 bg-gradient-to-r from-lutan-green via-emerald-400 to-lutan-red rounded-full"></div>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-4 relative z-10">
+			<div class="container mx-auto px-4 max-w-7xl">
+				<div class="soft-card p-4 md:p-6 mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
+					<!-- Search Input -->
+					<div class="relative w-full md:w-80">
+						<i class="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+						<input type="text" id="blog-search" placeholder="Search articles..." 
+							class="w-full pl-9 pr-4 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:border-lutan-green transition-colors">
+					</div>
+
+					<!-- Category Buttons -->
+					<div class="flex flex-wrap justify-center gap-2 w-full md:w-auto" id="filter-container">
+						<button class="filter-btn active px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold transition-all" data-category="all">
+							All Articles
+						</button>
+						{% for category in categories %}
+						<button class="filter-btn  px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold transition-all" data-category="{{ category }}">
+							{{ category }}
+						</button>
+						{% endfor %}
+
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="pb-16 relative z-10">
+			<div class="container mx-auto px-4 max-w-7xl">
+				<div id="blog-cards-grid" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+					{% for blog in blogs %}
+                    <article class="blog-card soft-card overflow-hidden flex flex-col justify-between relative group" data-category="{{ blog.category }}" data-title="{{ blog.title.split('<span')[0] }}">
+						<div class="overflow-hidden h-48 w-full relative bg-slate-100 dark:bg-slate-800">
+							<img src="{{ blog.image }}" 
+								 alt="Leveraging AI in Web Design" 
+								 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+								 onerror="this.src='https://placehold.co/600x400/009639/ffffff?text={{ blog.title.split('<span')[0] }}'">
+							<div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+						</div>
+						<div class="p-6 flex-grow flex flex-col justify-between">
+							<div class="art-content">
+								<div class="flex items-center justify-between gap-2 mb-3">
+									<span class="badge-pill bg-purple-100 text-purple-800 dark:bg-purple-950/60 dark:text-purple-300 border border-purple-200 dark:border-purple-900">
+										<i class="{{ blog.icon }} text-[10px]"></i> {{ blog.category }}
+									</span>
+									<span class="text-[11px] font-semibold text-slate-400 flex items-center gap-1">
+										<i class="far fa-calendar-alt"></i> {{ blog.date }}
+									</span>
+								</div>
+								<h2 class="text-base font-black text-slate-900 dark:text-white mb-2 group-hover:text-lutan-green transition-colors leading-snug">
+									{{ blog.title|safe }}
+								</h2>
+								<p class="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-4">
+									{{ blog.summary|safe }}
+								</p>
+							</div>
+							<div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs mt-auto">
+								<span class="font-bold text-slate-500 dark:text-slate-400 text-[11px]">By Lutan Tech</span>
+								<a href="/blogs/blog/{{ blog.slug }}" class="text-lutan-green font-black flex items-center gap-1 hover:underline">
+									Read More <i class="fas fa-arrow-right text-[10px]"></i>
+								</a>
+							</div>
+						</div>
+					</article>
+                    {% endfor %}
+	
+
+				</div>
+
+				<div id="no-results" class="hidden text-center py-12">
+					<div class="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-500 mx-auto flex items-center justify-center mb-3">
+						<i class="fas fa-search"></i>
+					</div>
+					<p class="text-sm font-bold text-slate-700 dark:text-slate-300">No articles found matching your query.</p>
+					<p class="text-xs text-slate-500 mt-1">Try clearing your search bar or selecting a different category.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-12 bg-slate-900 text-white relative z-10 border-t border-slate-800">
+			<div class="container mx-auto px-4 max-w-4xl text-center">
+				<div class="w-10 h-10 rounded-xl bg-lutan-green text-white mx-auto flex items-center justify-center text-lg mb-4 shadow-lg">
+					<i class="fas fa-envelope-open-text"></i>
+				</div>
+				<h3 class="text-2xl font-black text-white mb-2">Subscribe to Lutan Tech Insights</h3>
+				<p class="text-xs text-slate-300 max-w-lg mx-auto leading-relaxed mb-6">
+					Get the latest web engineering guides, technical SEO insights, and software architecture tips delivered straight to your inbox. No spam.
+				</p>
+				<form id="newsletter-form" onsubmit="handleSubscribe(event)" class="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+					<input type="email" placeholder="Enter your email address" required 
+						class="px-4 py-2.5 text-xs rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green flex-grow">
+					<button type="submit" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider px-6 py-2.5 rounded-xl shadow-md transition-all shrink-0">
+						Subscribe
+					</button>
+				</form>
+				<div id="newsletter-msg" class="hidden text-xs font-bold text-emerald-400 mt-3"></div>
+			</div>
+		</section>
+
+    </div>
+	<script>
+  
+        const searchInput = document.getElementById('blog-search');
+		const filterButtons = document.querySelectorAll('.filter-btn');
+		const blogCards = document.querySelectorAll('.blog-card');
+		const noResults = document.getElementById('no-results');
+
+		let currentCategory = 'all';
+
+		filterButtons.forEach(btn => {
+			btn.addEventListener('click', () => {
+				filterButtons.forEach(b => b.classList.remove('active'));
+				btn.classList.add('active');
+				currentCategory = btn.getAttribute('data-category');
+				filterArticles();
+			});
+		});
+
+		searchInput.addEventListener('input', filterArticles);
+
+		function filterArticles() {
+			const query = searchInput.value.toLowerCase().trim();
+			let visibleCount = 0;
+
+			blogCards.forEach(card => {
+				const cardCat = card.getAttribute('data-category');
+				const cardTitle = card.getAttribute('data-title').toLowerCase();
+
+				const categoryMatches = (currentCategory === 'all' || cardCat === currentCategory);
+				const searchMatches = (query === '' || cardTitle.includes(query));
+
+				if (categoryMatches && searchMatches) {
+					card.classList.remove('hidden');
+					visibleCount++;
+				} else {
+					card.classList.add('hidden');
+				}
+			});
+
+			if (visibleCount === 0) {
+				noResults.classList.remove('hidden');
+			} else {
+				noResults.classList.add('hidden');
+			}
+		}
+
+    </script>
+    {% endblock %}

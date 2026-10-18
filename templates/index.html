@@ -1,0 +1,448 @@
+
+		{% extends "base.html" %}
+        {% block content %}
+        <div>
+        <section id="home" class="py-16 md:py-24 relative overflow-hidden z-10">
+			<div class="container mx-auto px-4 max-w-7xl">
+				<div class="flex flex-col items-center text-center max-w-3xl mx-auto">
+					<div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-green-100 text-lutan-green dark:bg-green-950/60 dark:text-emerald-400 text-xs font-bold tracking-wide mb-6 border border-green-200 dark:border-green-800 shadow-sm">
+						Hello there ):
+					</div>
+					<h1 class="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-tight mb-6">
+						Smart Web Solutions for <span class="bg-gradient-to-r from-lutan-green via-emerald-500 to-teal-400 bg-clip-text text-transparent">Modern Businesses</span>
+					</h1>
+					<p class="text-slate-600 dark:text-slate-300 text-sm md:text-base font-medium max-w-2xl leading-relaxed mb-8">
+						We craft high-performance, secure and intuitive web applications tailored to turn your vision into scalable digital reality.
+					</p>
+					<div class="flex flex-wrap items-center justify-center gap-4">
+						<a href="/projects" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-lg hover:shadow-green-500/20 transition-all hover:-translate-y-0.5">
+							<i class="fas fa-rocket"></i> Portfolio
+						</a>
+						
+						<a href="https://lutan-tech.vercel.app" target="_blank" class="relative border-2 border-lutan-green/80 hover:border-lutan-green bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-md transition-all hover:-translate-y-0.5 group">
+							<span class="absolute -top-2.5 -right-2 bg-lutan-red text-white text-[9px] font-black px-2 py-0.5 rounded-full uppercase new-badge">NEW</span>
+							<i class="fas fa-laptop-code text-lutan-green"></i> OS Version
+						</a>
+                        <a href="#services"  class="absolute bottom-5  bg-black dark:bg-slate-800 text-white dark:text-white font-black text-lg uppercase tracking-wider p-4 rounded-full inline-flex items-center gap-2 shadow-md transition-all hover:-translate-y-0.5 group animate:translate-y-0.5 ">
+							<i class="fas fa-arrow-down text-white"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="services" class="py-12 bg-slate-50 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800 relative z-10">
+			<div class="container mx-auto px-4 max-w-7xl">
+				<div class="flex flex-col items-center text-center mb-10 max-w-2xl mx-auto">
+					<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-lutan-green dark:bg-green-950/60 dark:text-emerald-400 text-[11px] font-extrabold uppercase tracking-wider mb-2 border border-green-200 dark:border-green-800">
+						<i class="fas fa-layer-group text-[10px]"></i> Expert Solutions
+					</div>
+					<h2 class="text-3xl font-black text-slate-900 tracking-tight dark:text-white">
+						My <span class="text-lutan-green">Expertise</span>
+					</h2>
+					<p class="text-slate-600 dark:text-slate-400 mt-2 text-xs md:text-sm font-medium">
+						Custom software engineering, modern web applications and optimized digital performance.
+					</p>
+					<div class="w-16 h-1 bg-gradient-to-r from-lutan-green via-emerald-400 to-lutan-red rounded-full mt-3"></div>
+				</div>
+
+				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+					<div class="soft-card p-6 flex flex-col justify-between relative group">
+						<div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-950/60 text-lutan-green flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+							<i class="fas fa-code"></i>
+						</div>
+						<h3 class="text-lg font-black text-slate-900 dark:text-white mb-2">Web Development</h3>
+						<p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+							Crafting responsive, high-performance websites and dynamic web applications with cutting-edge technologies like Python (Django/Flask), JavaScript (React/Next.js) and Tailwind CSS.
+						</p>
+					</div>
+
+					<div class="soft-card p-6 flex flex-col justify-between relative group">
+						<div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-950/60 text-lutan-green flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+							<i class="fas fa-compass-drafting"></i>
+						</div>
+						<h3 class="text-lg font-black text-slate-900 dark:text-white mb-2">UI/UX & Graphic Design</h3>
+						<p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+							Designing modern, intuitive user interfaces and sleek user experiences that captivate visitors, reduce bounce rates and ensure effortless navigation across mobile and desktop.
+						</p>
+					</div>
+
+					<div class="soft-card p-6 flex flex-col justify-between relative group">
+						<div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-950/60 text-lutan-green flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+							<i class="fas fa-palette"></i>
+						</div>
+						<h3 class="text-lg font-black text-slate-900 dark:text-white mb-2">Canva Pro Solutions</h3>
+						<p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+							Delivering professional branding materials, high-converting social media collateral, pitch decks and custom design assets tailored for business promotion.
+						</p>
+					</div>
+
+					<div class="soft-card p-6 flex flex-col justify-between relative group">
+						<div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-950/60 text-lutan-green flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+							<i class="fas fa-magnifying-glass-chart"></i>
+						</div>
+						<h3 class="text-lg font-black text-slate-900 dark:text-white mb-2">SEO Optimization</h3>
+						<p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+							Implementing technical SEO, structured JSON-LD data, performance tuning and keyword indexing strategies to boost your search engine ranking and organic traffic.
+						</p>
+					</div>
+
+					<div class="soft-card p-6 flex flex-col justify-between relative group">
+						<div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-950/60 text-lutan-green flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+							<i class="fas fa-robot"></i>
+						</div>
+						<h3 class="text-lg font-black text-slate-900 dark:text-white mb-2">AI Integration & Automation</h3>
+						<p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+							Embedding smart AI assistants, automated chat systems, predictive workflows and third-party API integrations directly into your web platforms.
+						</p>
+					</div>
+
+					<div class="soft-card p-6 flex flex-col justify-between relative group">
+						<div class="w-12 h-12 rounded-xl bg-green-100 dark:bg-green-950/60 text-lutan-green flex items-center justify-center text-xl font-bold mb-4 group-hover:scale-110 transition-transform">
+							<i class="fas fa-shield-halved"></i>
+						</div>
+						<h3 class="text-lg font-black text-slate-900 dark:text-white mb-2">Security & Tech Support</h3>
+						<p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed">
+							Protecting platforms with Fernet encryption, XSS/CSRF security safeguards, regular database backups and continuous application maintenance.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="py-12 relative z-10">
+			<div class="container mx-auto px-4 max-w-7xl">
+				<div class="soft-card p-8 bg-gradient-to-br from-slate-900 to-slate-950 text-white border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
+					<div>
+						<span class="text-xs font-bold text-emerald-400 uppercase tracking-widest flex items-center gap-2 mb-1">
+							<i class="fas fa-circle-check text-[10px]"></i> Portfolio Highlights
+						</span>
+						<h3 class="text-2xl font-black text-white">Explore Our Completed Projects</h3>
+						<p class="text-xs text-slate-300 mt-1 max-w-xl leading-relaxed">
+							From encrypted messaging tools like Hush Chat to complete publishing platforms like Tunu Library and e-commerce applications.
+						</p>
+					</div>
+					<a href="/projects" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl shrink-0 inline-flex items-center gap-2 shadow-lg transition-transform hover:scale-105">
+						<span>View Portfolio</span>
+						<i class="fas fa-arrow-right text-xs"></i>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section id="blogzone" class="py-12 relative z-10 bg-slate-50/70 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800">
+			<div class="container mx-auto px-4 max-w-7xl">
+				<div class="flex flex-col items-center text-center mb-10 max-w-2xl mx-auto">
+					<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-lutan-green dark:bg-green-950/60 dark:text-emerald-400 text-[11px] font-extrabold uppercase tracking-wider mb-2 border border-green-200 dark:border-green-800">
+						<i class="fas fa-newspaper text-[10px]"></i> Blog Zone
+					</div>
+					<h2 class="text-3xl font-black text-slate-900 tracking-tight dark:text-white">
+						Blog <span class="text-lutan-green">Zone</span>
+					</h2>
+					<p class="text-slate-600 dark:text-slate-400 mt-2 text-xs md:text-sm font-medium">
+						Read our latest thoughts, strategy guides, design principles and technological breakdowns.
+					</p>
+					<div class="w-16 h-1 bg-gradient-to-r from-lutan-green via-emerald-400 to-lutan-red rounded-full mt-3"></div>
+				</div>
+
+				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+					{% for blog in blogs  %}
+					<article class="soft-card overflow-hidden flex flex-col justify-between relative group">
+						<div class="overflow-hidden h-48 w-full relative bg-slate-100 dark:bg-slate-800">
+							<img src="{{ blog.image }}" 
+								 alt="Navigating the Unknown" 
+								 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+							<div class="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent"></div>
+						</div>
+						<div class="p-6 flex-grow flex flex-col justify-between">
+							<div>
+								<div class="flex items-center justify-between gap-2 mb-3">
+									<span class="badge-pill bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+										<i class="{{ blog.icon }} text-[10px] text-lutan-green"></i> {{ blog.category }}
+									</span>
+									<span class="text-[11px] font-semibold text-slate-400 flex items-center gap-1">
+										<i class="far fa-calendar-alt"></i> {{ blog.date }}
+									</span>
+								</div>
+								<h3 class="text-base font-black text-slate-900 dark:text-white mb-2 group-hover:text-lutan-green transition-colors leading-snug">
+									{{ blog.title|safe }}
+								</h3>
+								<p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4">
+									{{ blog.summary|safe }}
+								</p>
+							</div>
+							<div class="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs mt-auto">
+								<span class="font-bold text-slate-500 dark:text-slate-400 text-[11px]">By {{ blog.by }}</span>
+								<a href="/blogs/blog/{{ blog.slug }}" class="text-lutan-green font-black flex items-center gap-1 hover:underline">
+									Read More <i class="fas fa-arrow-right text-[10px]"></i>
+								</a>
+							</div>
+						</div>
+					</article>
+					{% endfor %}
+				</div>
+			</div>
+		</section>
+
+		<section id="faq" class="py-14 bg-slate-50 dark:bg-slate-900/40 border-y border-slate-200/80 dark:border-slate-800 relative z-10">
+			<div class="container mx-auto px-4 max-w-4xl">
+				<div class="flex flex-col items-center text-center mb-10">
+					<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-lutan-green dark:bg-green-950/60 dark:text-emerald-400 text-[11px] font-extrabold uppercase tracking-wider mb-2 border border-green-200 dark:border-green-800">
+						<i class="fas fa-circle-question text-[10px]"></i> Got Questions?
+					</div>
+					<h2 class="text-3xl font-black text-slate-900 tracking-tight dark:text-white">
+						Frequently Asked <span class="text-lutan-green">Questions</span>
+					</h2>
+					<p class="text-slate-600 dark:text-slate-400 mt-2 text-xs md:text-sm font-medium">
+						Everything you need to know about our services, workflow and technology stack.
+					</p>
+					<div class="w-16 h-1 bg-gradient-to-r from-lutan-green to-lutan-red rounded-full mt-3"></div>
+				</div>
+
+				<div class="space-y-4">
+					<div class="soft-card overflow-hidden">
+						<button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center font-bold text-slate-900 dark:text-white text-sm focus:outline-none">
+							<span>What services does Lutan Tech offer?</span>
+							<i class="fas fa-chevron-down text-lutan-green transition-transform duration-200"></i>
+						</button>
+						<div class="px-6 pb-4 text-xs text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800 pt-3 hidden">
+							We specialize in App Development, Web Application Development, UI/UX Design, Canva Pro Solutions, SEO Technical Optimization, AI Agent Integration and Platform Security Engineering.
+						</div>
+					</div>
+
+					<div class="soft-card overflow-hidden">
+						<button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center font-bold text-slate-900 dark:text-white text-sm focus:outline-none">
+							<span>What tech stack do you specialize in?</span>
+							<i class="fas fa-chevron-down text-lutan-green transition-transform duration-200"></i>
+						</button>
+						<div class="px-6 pb-4 text-xs text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800 pt-3 hidden">
+							Our core stack includes Python (Flask), Kotlin (Native Apps), JavaScript (React, Next.js, Node.js), HTML5/Tailwind CSS, PostgreSQL/MySQL databases and RESTful API integrations.
+						</div>
+					</div>
+
+					<div class="soft-card overflow-hidden">
+						<button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center font-bold text-slate-900 dark:text-white text-sm focus:outline-none">
+							<span>How do you handle security and data privacy?</span>
+							<i class="fas fa-chevron-down text-lutan-green transition-transform duration-200"></i>
+						</button>
+						<div class="px-6 pb-4 text-xs text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800 pt-3 hidden">
+							We implement industry-standard encryption protocols (Fernet, bcrypt), XSS/CSRF protections, SSL/TLS, secure environment variables and automated system backups.
+						</div>
+					</div>
+
+					<div class="soft-card overflow-hidden">
+						<button class="faq-toggle w-full px-6 py-4 text-left flex justify-between items-center font-bold text-slate-900 dark:text-white text-sm focus:outline-none">
+							<span>How can I start a project with Lutan Tech?</span>
+							<i class="fas fa-chevron-down text-lutan-green transition-transform duration-200"></i>
+						</button>
+						<div class="px-6 pb-4 text-xs text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800 pt-3 hidden">
+							Simply reach out through our contact form below or send an email to lutancorpinfoteam@gmail.com with your project outline. We'll schedule an initial consultation!
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="contact" class="py-16 relative z-10">
+			<div class="container mx-auto px-4 max-w-7xl">
+				<div class="flex flex-col items-center text-center mb-10 max-w-2xl mx-auto">
+					<div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-100 text-lutan-green dark:bg-green-950/60 dark:text-emerald-400 text-[11px] font-extrabold uppercase tracking-wider mb-2 border border-green-200 dark:border-green-800">
+						<i class="fas fa-envelope text-[10px]"></i> Get In Touch
+					</div>
+					<h2 class="text-3xl font-black text-slate-900 tracking-tight dark:text-white">
+						Let's Build Something <span class="text-lutan-green">Great</span>
+					</h2>
+					<p class="text-slate-600 dark:text-slate-400 mt-2 text-xs md:text-sm font-medium">
+						Have a project in mind or need tech consulting? Contact us today.
+					</p>
+					<div class="w-16 h-1 bg-gradient-to-r from-lutan-green via-emerald-400 to-lutan-red rounded-full mt-3"></div>
+				</div>
+
+				<div class="grid md:grid-cols-3 gap-8">
+					<div class="soft-card p-6 flex flex-col justify-between">
+						<div>
+							<h3 class="text-lg font-black text-slate-900 dark:text-white mb-4">Contact Information</h3>
+							<div class="space-y-4 text-xs text-slate-600 dark:text-slate-300">
+								<div class="flex items-start gap-3">
+									<div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-slate-800 text-lutan-green flex items-center justify-center shrink-0">
+										<i class="fas fa-envelope"></i>
+									</div>
+									<div>
+										<span class="block font-bold text-slate-900 dark:text-white">Email</span>
+										<a href="mailto:lutancorpinfoteam@gmail.com" class="hover:text-lutan-green transition-colors">lutancorpinfoteam@gmail.com</a>
+									</div>
+								</div>
+
+								<div class="flex items-start gap-3">
+									<div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-slate-800 text-lutan-green flex items-center justify-center shrink-0">
+										<i class="fas fa-phone"></i>
+									</div>
+									<div>
+										<span class="block font-bold text-slate-900 dark:text-white">Phone</span>
+										<a href="tel:+254711808286" class="hover:text-lutan-green transition-colors">+254 711 808 286</a>
+									</div>
+								</div>
+
+								<div class="flex items-start gap-3">
+									<div class="w-8 h-8 rounded-lg bg-green-100 dark:bg-slate-800 text-lutan-green flex items-center justify-center shrink-0">
+										<i class="fas fa-location-dot"></i>
+									</div>
+									<div>
+										<span class="block font-bold text-slate-900 dark:text-white">Location</span>
+										<span>Nairobi, Kenya</span>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="pt-4 border-t border-slate-100 dark:border-slate-800 mt-6">
+							<span class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-2">Connect with us</span>
+							<div class="flex gap-2">
+								<a href="https://github.com/LutanTech" target="_blank" class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-lutan-green hover:text-white flex items-center justify-center transition-colors text-xs" aria-label="GitHub"><i class="fab fa-github"></i></a>
+								<a href="https://x.com/Lutan3526" target="_blank" class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-lutan-green hover:text-white flex items-center justify-center transition-colors text-xs" aria-label="Twitter"><i class="fab fa-x-twitter"></i></a>
+								<a href="https://www.facebook.com/profile.php?id=100084267459059" target="_blank" class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-lutan-green hover:text-white flex items-center justify-center transition-colors text-xs" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+								<a href="https://www.instagram.com/lutantech" target="_blank" class="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-lutan-green hover:text-white flex items-center justify-center transition-colors text-xs" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+							</div>
+						</div>
+					</div>
+
+					<div class="soft-card p-6 md:col-span-2">
+						<form id="contact-form" onsubmit="handleContactSubmit(event)" class="space-y-4">
+							<div class="grid md:grid-cols-2 gap-4">
+								<div>
+									<label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" for="name">Your Name</label>
+									<input type="text" id="name" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-lutan-green" placeholder="E.g Lutan Tech">
+								</div>
+								<div>
+									<label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" for="email">Your Email</label>
+									<input type="email" id="email" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-lutan-green" placeholder="E.g lutan@gmail.com">
+								</div>
+							</div>
+
+							<div>
+								<label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1" for="subject">Subject</label>
+								<input type="text" id="subject" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-lutan-green" placeholder="E.g Prices ">
+							</div>
+
+							<div>
+								<label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1 flex gap-2" for="message">Message <div id="edit-progress-cover" class="rounded w-full flex p-2"> <div id="edit-progress" class="w-[0] bg-lutan-green rounded-lg py-0.5" style="transition: all 2s ease-in-out;"></div> </div> <span class="text-[8px] w-[80px]" id="progress-text">Max 2k chars</span></label>
+								<textarea id="message" rows="4" required class="w-full px-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:border-lutan-green" placeholder="Explain your message here"></textarea>
+							</div>
+							<div class="sm:col-span-2 flex justify-center py-2">
+								
+
+								<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+								<div class="g-recaptcha"
+									 data-sitekey="6LcetfQtAAAAAC3cIHSrZzzT1w5pyjI44PfsamE2"
+									 data-callback="captchaSuccess"
+									 data-expired-callback="captchaExpired"
+									 data-error-callback="captchaExpired"></div>
+								
+								<script>
+								function captchaSuccess(token) {
+									document.getElementById('submitBtn').disabled = !token;
+								}
+								
+								function captchaExpired() {
+									document.getElementById('submitBtn').disabled = true;
+								}
+								</script>
+						</div>
+				   
+
+							<button type="submit" id="submitBtn" disabled class="w-full bg-lutan-green hover:bg-lutan-darkgreen text-white font-black disabled:bg-gray-500/40 text-xs uppercase tracking-wider py-3 rounded-lg shadow-md transition-all">
+								Send Message
+							</button>
+							<div id="form-response" class="hidden text-xs text-center font-bold p-2 rounded-lg bg-green-100 text-lutan-green"></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+        
+	<script>
+        document.addEventListener('DOMContentLoaded',()=>{
+			const submitBtn = document.getElementById('submitBtn');
+
+			function captchaSuccess(token) {
+				submitBtn.disabled = !token;
+			}
+
+			function captchaExpired() {
+				submitBtn.disabled = true;
+			}
+            const msgInput = document.getElementById('message')
+            const msgProgress = document.getElementById('edit-progress')
+            const max = 2000
+
+            msgInput.setAttribute('maxLength', max)
+
+
+
+            msgInput.addEventListener('input', ()=>{
+                const val = (msgInput.value.trim()).length
+                if(val){
+
+                    msgProgress.setAttribute('style', `width:${val * 100 / max}%`)
+                    document.getElementById('progress-text').innerText =`${ val}/${String(max).replace('000', 'K')} chars`
+                }
+            })
+        })
+		document.querySelectorAll('.faq-toggle').forEach(button => {
+			button.addEventListener('click', () => {
+				const content = button.nextElementSibling;
+				const icon = button.querySelector('i');
+				
+				content.classList.toggle('hidden');
+				icon.classList.toggle('rotate-180');
+			});
+		});
+
+        function handleContactSubmit(e){
+            e.preventDefault()
+
+            const form = document.getElementById('contact-form')
+            const name = form.querySelector('#name').value
+            const email = form.querySelector('#name').value
+            const subject = form.querySelector('#subject').value
+            const message = form.querySelector('#message').value.trim()
+            if(!name || !subject || !email || !message){
+                return alert('All fields are required')
+            }
+            const payload ={
+                name, email, subject, message
+            }
+            const btn = form.querySelector('button')
+            btn.setAttribute('disabled', true)
+			const gr = grecaptcha.getResponse()
+
+            fetch('/api/contact', {
+                method:'POST',
+                headers:{
+                    'Content-Type':'application/json',
+					'G-Recaptcha-Response':gr
+                },
+                body:JSON.stringify(payload)
+            })
+            .then(r=>r.json())
+            .then(data=>{
+                btn.removeAttribute('disabled')
+                if(data.error){
+                    alert(data.error)
+                } else{
+                alert(data.msg)
+				form.reset()
+                }
+            })
+            .catch(err=>{
+                btn.removeAttribute('disabled')
+                alert(err.message)
+            })
+        }
+    </script>
+
+	
+    </div>
+
+        {% endblock %}

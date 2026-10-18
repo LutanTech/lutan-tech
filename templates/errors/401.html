@@ -1,0 +1,8 @@
+
+{% extends "error_base.html" %}
+{% block status_badge %}401 · UNAUTHORIZED{% endblock %}
+{% block status_code %}401{% endblock %}
+{% block status_text %}Authentication Required{% endblock %}
+{% block error_message %}You need to authenticate before accessing this resource. Please sign in and try again.{% endblock %}
+{% block terminal_status %}401{% endblock %}
+{% block terminal_error %}401_UNAUTHORIZED{% endblock %}

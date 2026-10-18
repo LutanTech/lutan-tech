@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% block content %}	
+<style>
+    		.overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			z-index: 2000;
+			background: rgba(15, 23, 42, 0.85);
+			backdrop-filter: blur(8px);
+			width: 100%;
+			height: 100%;
+			display: none;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.overlay.active {
+			display: flex;
+		}
+</style>
+	<section id="projects-page" class="py-4">
+			<div class="container mx-auto px-4 max-w-7xl">
+				<div class="flex flex-col items-center text-center mb-8 max-w-2xl mx-auto">
+
+					<h1 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight dark:text-white">
+						Featured <span class="text-lutan-green">Projects</span>
+					</h1>
+					<p class="text-slate-600 dark:text-slate-400 mt-2 text-xs md:text-sm font-medium leading-relaxed">
+						Discover our portfolio of secure web applications, custom e-commerce stores, community platforms and high-performance developer tools.
+					</p>
+					<div class="w-16 h-1 bg-gradient-to-r from-lutan-green via-emerald-400 to-lutan-red rounded-full mt-3"></div>
+				</div>
+
+				<div id="projects-container" class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+				</div>
+			</div>
+		</section>
+
+	<div id="image-modal" class="overlay" onclick="handleOverlayClick(event)">
+		<button class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-lutan-red hover:bg-lutan-darkred text-white flex items-center justify-center text-lg shadow-xl transition-transform hover:scale-105" onclick="toggleOverlay()" aria-label="Close Preview">
+			<i class="fas fa-xmark"></i>
+		</button>
+		<div class="p-3 max-w-4xl w-full">
+			<div class="relative bg-slate-900 p-1.5 rounded-xl shadow-2xl border border-lutan-green overflow-hidden">
+				<img id="modal-img" src="" alt="Project Preview" class="w-full max-h-[75vh] object-contain rounded-lg">
+			</div>
+		</div>
+	</div>
+
+
+	<script>
+
+		const modalOverlay = document.getElementById('image-modal');
+		const modalImg = document.getElementById('modal-img');
+
+		function toggleOverlay() {
+			modalOverlay.classList.toggle('active');
+		}
+
+		function openImageModal(imgSrc) {
+			modalImg.src = imgSrc;
+			toggleOverlay();
+		}
+
+		function handleOverlayClick(e) {
+			if (e.target === modalOverlay) {
+				toggleOverlay();
+			}
+		}
+
+		const techIcons = {
+			"JavaScript": "fab fa-js text-amber-500",
+			"HTML5": "fab fa-html5 text-orange-500",
+			"CSS3": "fab fa-css3-alt text-blue-500",
+			"Node.js": "fab fa-node-js text-green-600",
+			"React": "fab fa-react text-sky-400",
+			"React.js": "fab fa-react text-sky-400",
+			"Tailwind CSS": "fas fa-wind text-teal-400",
+			"Next.js": "fas fa-N text-slate-800 dark:text-white",
+			"Python": "fab fa-python text-blue-400",
+			"Django": "fas fa-cubes text-emerald-600",
+			"PostgreSQL": "fas fa-database text-blue-600",
+			"PHP": "fab fa-php text-indigo-400",
+			"MySQL": "fas fa-database text-amber-600",
+			"Express": "fas fa-server text-gray-500",
+			"MongoDB": "fas fa-leaf text-green-500",
+			"Flask": "fas fa-flask text-slate-700 dark:text-slate-300",
+			"SQLite": "fas fa-database text-cyan-500",
+			"Socket.IO": "fas fa-plug text-purple-500",
+			"Fernet Cryptography": "fas fa-user-shield text-red-500",
+			"Firebase": "fas fa-fire text-amber-500",
+			"Bootstrap": "fab fa-bootstrap text-purple-600",
+			"WhatsApp API": "fab fa-whatsapp text-emerald-500"
+		};
+
+            const projects = [
+                {% for p in projects %}
+                {
+                    name: {{ p.name | tojson }},
+                    date: {{ p.date | tojson }},
+                    type: {{ p.type | tojson }},
+                    desc: {{ p.desc | tojson }},
+                    img: {{ (p.img if p.img.startswith('https') else '/static' ~ p.img) | tojson }},
+                    site: {{ p.site | tojson }},
+                    code: {{ p.code | tojson }},
+                    tech: {{ p.tech | tojson }}
+                }{% if not loop.last %},{% endif %}
+                {% endfor %}
+            ];
+		function renderProjects() {
+			const container = document.querySelector("#projects-container");
+			if (!container) return;
+			
+			container.innerHTML = projects.map(p => {
+				const techBadges = p.tech && p.tech.length ? p.tech.map(t => {
+					const iconClass = techIcons[t] || "fas fa-code text-lutan-green";
+					return `
+						<span class="badge-pill bg-slate-100 text-slate-700 dark:bg-slate-800/90 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/60 shadow-xs">
+							<i class="${iconClass}"></i> ${t}
+						</span>
+					`;
+				}).join('') : '';
+
+				return `
+					<div class="soft-card p-4 flex flex-col justify-between relative group overflow-hidden">
+						<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-lutan-green to-emerald-500 group-hover:from-emerald-400 group-hover:to-teal-500 transition-all duration-300"></div>
+
+						<div>
+							<div class="relative cursor-pointer overflow-hidden rounded-lg mb-3 border border-slate-200 dark:border-slate-700/80 shadow-xs" onclick="openImageModal('${p.img}')">
+								<img src="${p.img}" alt="${p.name}" class="object-cover w-full h-44 transition-transform duration-500 group-hover:scale-105">
+								<div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-xs">
+									<span class="text-white text-[11px] font-bold border border-white/40 px-3 py-1.5 rounded-lg uppercase tracking-wider bg-lutan-green/90 shadow-md flex items-center gap-1.5">
+										<i class="fas fa-magnifying-glass-plus"></i> View Image
+									</span>
+								</div>
+							</div>
+
+							<div class="mb-1.5 flex items-start justify-between gap-2">
+								<h3 class="text-lg font-black text-slate-900 dark:text-white leading-snug">
+									${p.name}
+								</h3>
+								${p.date !== "—" ? `
+									<span class="shrink-0 text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700/50 inline-flex items-center gap-1">
+										<i class="far fa-calendar-alt text-lutan-green"></i> ${p.date}
+									</span>
+								` : ""}
+							</div>
+
+							<p class="text-emerald-700 dark:text-emerald-400 text-[11px] font-extrabold tracking-wider uppercase mb-2 flex items-center gap-1">
+								<i class="fas fa-layer-group text-[9px] text-emerald-600 dark:text-emerald-400"></i> ${p.type}
+							</p>
+							
+							<p class="text-slate-600 dark:text-slate-300 text-xs leading-relaxed mb-4 font-normal">
+								${p.desc}
+							</p>
+						</div>
+
+						<div>
+							${techBadges ? `
+								<div class="mb-4 flex flex-wrap gap-1">
+									${techBadges}
+								</div>
+							` : ''}
+
+							<div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
+								<a href="${p.site}" target="_blank" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-bold text-[11px] uppercase tracking-wider px-3.5 py-2 rounded-lg inline-flex items-center gap-1.5 shadow-xs hover:shadow-sm transition-all">
+									<span>View Site</span>
+									<i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+								</a>
+								${p.code ? `
+									<a href="${p.code}" target="_blank" class="border border-slate-300 dark:border-slate-700 hover:border-lutan-green text-slate-700 dark:text-slate-300 hover:text-lutan-green dark:hover:text-emerald-400 font-bold text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 transition-all bg-white dark:bg-slate-800">
+										<i class="fab fa-github text-xs"></i> Code
+									</a>
+								` : ""}
+							</div>
+						</div>
+					</div>
+				`;
+			}).join("");
+		}
+
+		document.addEventListener("DOMContentLoaded", renderProjects);
+	</script>
+{% endblock %}

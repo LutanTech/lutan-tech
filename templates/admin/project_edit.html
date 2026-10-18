@@ -1,0 +1,66 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{% if project %}Edit Project{% else %}Add Project{% endif %}{% endblock %}
+{% block page_heading %}{% if project %}Edit Project: {{ project.name }}{% else %}New Project Entry{% endif %}{% endblock %}
+{% block page_description %}Configure project details, tech stack tags, and deployment links{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+    <div class="soft-card p-8">
+        <form method="POST" class="space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Project Name *</label>
+                    <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="text" name="name" value="{{ project.name if project else '' }}" required placeholder="e.g. Assiston AI">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Project Type *</label>
+                    <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="text" name="type" value="{{ project.type if project else '' }}" required placeholder="e.g. Web Application">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Date / Period</label>
+                    <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="text" name="date" value="{{ project.date if project else '' }}" placeholder="e.g. October 2026">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Image URL</label>
+                    <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="url" name="img" value="{{ project.img if project else '' }}" placeholder="https://...">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Live Demo URL *</label>
+                    <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="url" name="site" value="{{ project.site if project else '' }}" required placeholder="https://lutan-tech.is-great.org">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Repository URL (Code)</label>
+                    <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="url" name="code" value="{{ project.code if project else '' }}" placeholder="https://github.com/...">
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Tech Stack (Comma Separated) *</label>
+                <input class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs font-mono" type="text" name="tech" value="{{ project.tech|join(', ') if project and project.tech else '' }}" required placeholder="Python, Flask, Tailwind CSS, JavaScript">
+            </div>
+
+            <div>
+                <label class="block text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">Project Description *</label>
+                <textarea class="w-full bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-4 py-3 text-xs font-bold text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs h-32 leading-relaxed" name="desc" required placeholder="Detailed overview of the project architecture and features...">{{ project.desc if project else '' }}</textarea>
+            </div>
+
+            <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+                <a href="{{ url_for('admin_projects') }}" class="bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-extrabold text-xs uppercase tracking-wider px-6 py-3 rounded-xl transition-all">
+                    Cancel
+                </a>
+                <button type="submit" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider px-6 py-3 rounded-xl shadow-sm transition-all inline-flex items-center gap-2">
+                    <i class="fas fa-save text-xs"></i> {% if project %}Update Project{% else %}Publish Project{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

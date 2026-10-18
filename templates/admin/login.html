@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Lutan Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'lutan-green': '#009639',
+                        'lutan-darkgreen': '#007a2e',
+                        'lutan-red': '#e20613'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex items-center justify-center selection:bg-lutan-green selection:text-white">
+
+    <div class="w-full max-w-md px-4">
+        <div class="bg-slate-900/90 border border-slate-800 shadow-2xl rounded-2xl p-8 sm:p-10 relative overflow-hidden">
+            <div class="absolute -right-16 -top-16 h-48 w-48 rounded-full bg-green-500/10 blur-2xl pointer-events-none"></div>
+
+            <div class="text-center mb-8 relative">
+                <div class="w-12 h-12 rounded-2xl bg-lutan-green/10 text-lutan-green border border-green-500/20 flex items-center justify-center mx-auto mb-4 text-base shadow-lg">
+                    <i class="fas fa-shield-halved"></i>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">Admin Portal</h2>
+                <p class="text-xs font-medium text-slate-400 mt-1">Sign in to access Lutan Tech administration</p>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="mb-6 space-y-2">
+                        {% for category, message in messages %}
+                            <div class="p-3.5 rounded-xl text-xs font-bold border flex items-center gap-2.5 shadow-sm
+                                {% if category == 'error' or category == 'danger' %}
+                                    bg-red-500/10 text-red-400 border-red-500/20
+                                {% elif category == 'success' %}
+                                    bg-green-500/10 text-emerald-400 border-green-500/20
+                                {% else %}
+                                    bg-blue-500/10 text-blue-400 border-blue-500/20
+                                {% endif %}">
+                                <i class="fas {% if category == 'error' or category == 'danger' %}fa-triangle-exclamation{% elif category == 'success' %}fa-circle-check{% else %}fa-circle-info{% endif %} shrink-0 text-sm"></i>
+                                <span class="leading-relaxed">{{ message }}</span>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" class="space-y-5">
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-wider text-slate-400 mb-2">Email Address</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 text-xs">
+                            <i class="fas fa-envelope"></i>
+                        </span>
+                        <input class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-11 pr-4 py-3 text-xs font-bold text-white placeholder-slate-600 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="email" name="email" required autocomplete="email" placeholder="admin@lutantech.com">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black uppercase tracking-wider text-slate-400 mb-2">Password</label>
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 text-xs">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input class="w-full bg-slate-950 border border-slate-800 rounded-xl pl-11 pr-4 py-3 text-xs font-bold text-white placeholder-slate-600 focus:outline-none focus:border-lutan-green focus:ring-2 focus:ring-lutan-green/20 transition-all shadow-xs" type="password" name="password" required autocomplete="current-password" placeholder="••••••••••••">
+                    </div>
+                </div>
+
+                <button class="w-full bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider py-3.5 rounded-xl shadow-lg hover:shadow-green-500/20 transition-all flex items-center justify-center gap-2 mt-2" type="submit">
+                    <i class="fas fa-right-to-bracket text-xs"></i> Sign In to Dashboard
+                </button>
+            </form>
+
+            <div class="text-center mt-6 pt-6 border-t border-slate-800/80">
+                <p class="text-xs font-medium text-slate-400">
+                    Need staff access? 
+                    <a href="{{ url_for('admin_register') }}" class="font-bold text-lutan-green hover:underline ml-1">Register staff account</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

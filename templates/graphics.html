@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 2000;
+	background: rgba(15, 23, 42, 0.85);
+	backdrop-filter: blur(8px);
+	width: 100%;
+	height: 100%;
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+
+.overlay.active {
+	display: flex;
+}
+
+.badge-pill {
+	border-radius: 0.5rem;
+	font-size: 0.7rem;
+	font-weight: 600;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.3rem;
+	padding: 0.25rem 0.6rem;
+	transition: all 0.2s ease;
+}
+
+</style>
+
+<section id="graphics-page" class="py-4">
+	<div class="container mx-auto px-4 max-w-7xl">
+		<div class="flex flex-col items-center text-center mb-8 max-w-2xl mx-auto">
+			<h1 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight dark:text-white">
+				Graphic Design <span class="text-lutan-green">Showcase</span>
+			</h1>
+			<p class="text-slate-600 dark:text-slate-400 mt-2 text-xs md:text-sm font-medium leading-relaxed">
+				Explore our collection of visual identities, branding assets, campaign graphics, publication layouts, and digital media production.
+			</p>
+			<div class="w-16 h-1 bg-gradient-to-r from-lutan-green via-emerald-400 to-lutan-red rounded-full mt-3"></div>
+		</div>
+		
+		<div id="designs-container" class="grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+		</div>
+	</div>
+</section>
+
+<!-- Image Modal Lightbox -->
+<div id="image-modal" class="overlay" onclick="handleOverlayClick(event)">
+	<button class="absolute top-5 right-5 w-10 h-10 rounded-xl bg-lutan-red hover:bg-lutan-darkred text-white flex items-center justify-center text-lg shadow-xl transition-transform hover:scale-105" onclick="toggleOverlay()" aria-label="Close Preview">
+		<i class="fas fa-xmark"></i>
+	</button>
+	<div class="p-3 max-w-4xl w-full">
+		<div class="relative bg-slate-900 p-1.5 rounded-xl shadow-2xl border border-lutan-green overflow-hidden">
+			<img id="modal-img" src="" alt="Graphic Design Preview" class="w-full max-h-[75vh] object-contain rounded-lg">
+		</div>
+	</div>
+</div>
+
+<script>
+const modalOverlay = document.getElementById('image-modal');
+const modalImg = document.getElementById('modal-img');
+
+function toggleOverlay() {
+	modalOverlay.classList.toggle('active');
+}
+
+function openImageModal(imgSrc) {
+	modalImg.src = imgSrc;
+	toggleOverlay();
+}
+
+function handleOverlayClick(e) {
+	if (e.target === modalOverlay) {
+		toggleOverlay();
+	}
+}
+
+// Hardcoded Graphic Design Portfolio Dictionary Array
+const designs = [
+	{
+		Company: "National Youth Council (NYC) Kenya [THE AMPLIFIER]",
+		image: "/static/images/graphics/AMPLIFIER-10th-Edition.png",
+		link: "https://nationalyouthcouncil.go.ke/wp-content/uploads/2026/10/AMPLIFIER-10th-Edition-Sept-2026_1.pdf",
+        canvaLink:"https://canva.link/amplifier-10th-edition",
+		date: "September 2026"
+			},
+
+	{
+		Company: "Book Cover designs",
+		image: "/static/images/graphics/mkimbizi.png",
+		canvaLink: "https://canva.link/mkimbizi",
+		date: "August 2026"
+			},
+            {
+		Company: "NYC Kenya",
+		image: "/static/images/graphics/Building-a-Safer-and-Stronger-Sporting-Future-for-Kenya’s-Youth.png",
+		canvaLink: "https://canva.link/building-a-safer-and-stronger-sporting-futur",
+		date: "September 2026"
+			},
+            {
+		Company: "NYC Kenya [POLICY BRIEF]",
+		image: "/static/images/graphics/POLICY-BRIEF.png",
+		canvaLink: "https://canva.link/4de3bujlz69927o",
+		date: "October 2026"
+			},
+		];
+
+function renderDesigns() {
+	const container = document.querySelector("#designs-container");
+	if (!container) return;
+	
+	if (designs.length === 0) {
+		container.innerHTML = `
+					<div class="col-span-full text-center py-12">
+						<p class="text-slate-500 dark:text-slate-400 text-sm font-medium">No graphic design projects found.</p>
+					</div>
+				`;
+		return;
+	}
+	
+	container.innerHTML = designs.map(d => {
+			return `
+					<div class="soft-card rounded-[0] p-4 flex flex-col justify-between relative group overflow-hidden">
+						<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-lutan-green to-emerald-500 group-hover:from-emerald-400 group-hover:to-teal-500 transition-all duration-300"></div>
+
+						<div>
+							<!-- Graphic Design Image Preview -->
+							<div class="relative cursor-pointer overflow-hidden mb-3 border border-slate-200 dark:border-slate-700/80 shadow-xs" onclick="openImageModal('${d.image}')">
+								<img src="${d.image}" alt="${d.Company}" class="object-cover w-full h-64 transition-transform duration-500 group-hover:scale-105">
+								<div class="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-xs">
+									<span class="text-white text-[11px] font-bold border border-white/40 px-3 py-1.5 rounded-lg uppercase tracking-wider bg-lutan-green/90 shadow-md flex items-center gap-1.5">
+										<i class="fas fa-magnifying-glass-plus"></i> View Design
+									</span>
+								</div>
+							</div>
+
+
+							<div class="mb-2 flex items-start justify-between gap-2">
+								<h3 class="text-sm font-black text-slate-900 dark:text-white leading-snug">
+									${d.Company}
+								</h3>
+								${d.date && d.date !== "—" ? `
+									<span class="shrink-0 text-[10px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800/80 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-700/50 inline-flex items-center gap-1">
+										<i class="far fa-calendar-alt text-lutan-green"></i> ${d.date}
+									</span>
+								` : ""}
+							</div>
+
+							<p class="text-emerald-700 dark:text-emerald-400 text-[11px] font-extrabold tracking-wider uppercase mb-3 flex items-center gap-1">
+								<i class="fas fa-palette text-[9px] text-emerald-600 dark:text-emerald-400"></i> Graphic Design & Media
+							</p>
+						</div>
+
+						<div>
+							<div class="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800">
+								${d.link ? `
+									<a href="${d.link}" target="_blank" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-bold text-[11px] uppercase tracking-wider px-3.5 py-2 rounded-lg inline-flex items-center gap-1.5 shadow-xs hover:shadow-sm transition-all">
+										<span>View Project</span>
+										<i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+									</a>` : ''}
+                                    ${ d.canvaLink ? `
+                                    <a href="${d.canvaLink}" target="_blank" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-bold text-[11px] uppercase tracking-wider px-3.5 py-2 rounded-lg inline-flex items-center gap-1.5 shadow-xs hover:shadow-sm transition-all">
+										<span>Open Design</span>
+										<i class="fas fa-arrow-up-right-from-square text-[10px]"></i>
+									</a>` : '' }
+								${!d.canvaLink && !d.link ? `
+									<button onclick="openImageModal('${d.image}')" class="bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold text-[11px] uppercase tracking-wider px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 transition-all">
+										<i class="fas fa-expand text-[10px]"></i> Preview
+									</button>
+								` : ''}
+							</div>
+						</div>
+					</div>
+				`;
+		})
+		.join("");
+}
+
+document.addEventListener("DOMContentLoaded", renderDesigns);
+
+</script>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Staff Management{% endblock %}
+{% block page_heading %}Staff Directory{% endblock %}
+{% block page_description %}Manage administrative accounts, roles, permissions, and status actions{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    {% set stats = namespace(admin_count=0, active_count=0, inactive_count=0) %}
+    {% for item in staff %}
+        {% if item.is_admin %}
+            {% set stats.admin_count = stats.admin_count + 1 %}
+        {% endif %}
+        {% if item.is_active %}
+            {% set stats.active_count = stats.active_count + 1 %}
+        {% else %}
+            {% set stats.inactive_count = stats.inactive_count + 1 %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Staff</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ "{:,}".format(staff|length) }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Registered accounts</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-green-500/10 text-lutan-green flex items-center justify-center font-bold border border-green-200/50 dark:border-green-800/50">
+                <i class="fas fa-users-gear text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Administrators</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ "{:,}".format(stats.admin_count) }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Privileged access</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold">
+                <i class="fas fa-shield-halved text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Status Breakdown</span>
+                <p class="text-lg font-black mt-2 text-slate-900 dark:text-white">
+                    <span class="text-lutan-green">{{ stats.active_count }} Active</span> / <span class="text-amber-500">{{ stats.inactive_count }} Inactive</span>
+                </p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Account availability</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center font-bold">
+                <i class="fas fa-user-check text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Quick Registration</span>
+                <p class="text-xs font-bold text-slate-700 dark:text-slate-300 mt-2">Add New Personnel</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">Create staff credentials</p>
+            </div>
+            <a href="{{ url_for('admin_register') }}" class="w-11 h-11 rounded-xl bg-lutan-green hover:bg-lutan-darkgreen text-white flex items-center justify-center font-bold transition-all shadow-md hover:scale-105">
+                <i class="fas fa-user-plus text-sm"></i>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="soft-card overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/30">
+            <div>
+                <h2 class="font-black text-base text-slate-900 dark:text-white">Registered Staff Accounts</h2>
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Manage permissions, toggle status, or remove staff members</p>
+            </div>
+            <a href="{{ url_for('admin_register') }}" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider px-4 py-2.5 rounded-xl inline-flex items-center gap-2 shadow-sm transition-all">
+                <i class="fas fa-user-plus text-xs"></i> Register Staff
+            </a>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-100/70 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                        <th class="px-6 py-4"># ID</th>
+                        <th class="px-6 py-4">Staff Email</th>
+                        <th class="px-6 py-4">Login Method</th>
+                        <th class="px-6 py-4">Role</th>
+                        <th class="px-6 py-4">Status</th>
+                        <th class="px-6 py-4">Registered Date</th>
+                        <th class="px-6 py-4 text-right">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-800/80 text-xs">
+                    {% for item in staff %}
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors">
+                        <td class="px-6 py-4 align-middle font-mono font-bold text-slate-500 dark:text-slate-400">
+                            {{ item.id }}
+                        </td>
+                        <td class="px-6 py-4 align-middle font-bold text-slate-900 dark:text-white">
+                            <span class="inline-flex items-center gap-2 font-mono text-xs">
+                                <i class="fas fa-envelope text-slate-400"></i> {{ item.email }}
+                            </span>
+                            {% if item.google_id %}
+                            <span class="block text-[10px] text-slate-400 font-mono mt-0.5">Google ID linked</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 align-middle">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-100/60 text-purple-700 dark:bg-purple-950/50 dark:text-purple-300 border border-purple-200 dark:border-purple-800 font-bold text-[11px] capitalize">
+                                <i class="fas fa-key text-[10px]"></i> {{ item.login_method }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 align-middle">
+                            {% if item.is_admin %}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-100/60 text-blue-700 dark:bg-blue-950/50 dark:text-blue-300 border border-blue-200 dark:border-blue-800 font-bold text-[11px]">
+                                <i class="fas fa-shield-halved text-[10px]"></i> Admin
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-bold text-[11px]">
+                                <i class="fas fa-user text-[10px]"></i> Standard
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 align-middle">
+                            {% if item.is_active %}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-green-100/60 text-lutan-green dark:bg-green-950/50 dark:text-emerald-400 border border-green-200 dark:border-green-800 font-bold text-[11px]">
+                                <i class="fas fa-circle text-[6px]"></i> Active
+                            </span>
+                            {% else %}
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-100/60 text-amber-700 dark:bg-amber-950/50 dark:text-amber-400 border border-amber-200 dark:border-amber-800 font-bold text-[11px]">
+                                <i class="fas fa-circle text-[6px]"></i> Suspended
+                            </span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 align-middle whitespace-nowrap font-medium text-slate-500 dark:text-slate-400">
+                            {{ item.created_at.strftime('%Y-%m-%d %H:%M') if item.created_at else 'N/A' }}
+                        </td>
+                        <td class="px-6 py-4 align-middle text-right whitespace-nowrap space-x-1.5">
+                            <!-- Toggle Suspend / Activate Form -->
+                            <form action="{{ url_for('admin_toggle_staff', staff_id=item.id) }}" method="POST" class="inline">
+                                <button type="submit" class="px-3 py-1.5 rounded-xl font-extrabold text-[11px] transition-all {% if item.is_active %}bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800{% else %}bg-green-500/10 hover:bg-green-500/20 text-lutan-green border border-green-200 dark:border-green-800{% endif %}" title="{% if item.is_active %}Suspend Account{% else %}Activate Account{% endif %}">
+                                    {% if item.is_active %}
+                                    <i class="fas fa-ban text-xs mr-1"></i> Suspend
+                                    {% else %}
+                                    <i class="fas fa-check text-xs mr-1"></i> Activate
+                                    {% endif %}
+                                </button>
+                            </form>
+
+                            <!-- Delete Form -->
+                            <form action="{{ url_for('admin_delete_staff', staff_id=item.id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure you want to permanently delete staff account {{ item.email }}?');">
+                                <button type="submit" class="px-3 py-1.5 rounded-xl font-extrabold text-[11px] bg-red-500/10 hover:bg-red-500/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 transition-all" title="Delete Staff Account">
+                                    <i class="fas fa-trash-alt text-xs mr-1"></i> Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="px-6 py-20 text-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mx-auto mb-3 shadow-xs">
+                                <i class="fas fa-user-slash text-lg"></i>
+                            </div>
+                            <p class="font-extrabold text-sm text-slate-900 dark:text-white">No staff accounts found.</p>
+                            <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Register administrative personnel to populate this directory.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

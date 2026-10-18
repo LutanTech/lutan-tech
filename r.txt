@@ -1,0 +1,7 @@
+Flask
+Flask-Migrate
+Flask-SQLAlchemy
+markdown2
+requests
+python-slugify
+Werkzeug

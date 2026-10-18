@@ -1,0 +1,112 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Messages & Inquiries{% endblock %}
+{% block page_heading %}Contact Inquiries{% endblock %}
+{% block page_description %}Review and manage incoming user messages and feedback{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    {% set stats = namespace(total=messages|length, unread=0) %}
+    {% for item in messages %}
+        {% if not item.subject %}
+            {% set stats.unread = stats.unread + 1 %}
+        {% endif %}
+    {% endfor %}
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
+        
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Total Inquiries</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ "{:,}".format(stats.total) }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Received messages</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-blue-500/10 text-blue-500 flex items-center justify-center font-bold">
+                <i class="fas fa-inbox text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">General Messages</span>
+                <p class="text-3xl font-black mt-2 text-slate-900 dark:text-white">{{ "{:,}".format(stats.total) }}</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-1">Direct submissions</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-green-500/10 text-lutan-green flex items-center justify-center font-bold border border-green-200/50 dark:border-green-800/50">
+                <i class="fas fa-comments text-sm"></i>
+            </div>
+        </div>
+
+        <div class="soft-card p-5 flex items-center justify-between">
+            <div>
+                <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400">Response Portal</span>
+                <p class="text-xs font-bold text-slate-700 dark:text-slate-300 mt-2">Active Support Feed</p>
+                <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">Live database synchronization</p>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-purple-500/10 text-purple-500 flex items-center justify-center font-bold">
+                <i class="fas fa-headset text-sm"></i>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="soft-card overflow-hidden">
+        <div class="px-6 py-5 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center bg-slate-50/50 dark:bg-slate-900/30">
+            <div>
+                <h2 class="font-black text-base text-slate-900 dark:text-white">Visitor Messages</h2>
+                <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">Complete record of form submissions and inquiries</p>
+            </div>
+            <div class="w-9 h-9 rounded-lg bg-green-100 dark:bg-green-950/60 text-lutan-green flex items-center justify-center border border-green-200 dark:border-green-800 shadow-xs">
+                <i class="fas fa-envelope-open-text text-xs"></i>
+            </div>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-100/70 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 text-[10px] font-black uppercase tracking-widest text-slate-500 dark:text-slate-400">
+                        <th class="px-6 py-4">Sender</th>
+                        <th class="px-6 py-4">Subject</th>
+                        <th class="px-6 py-4">Message Content</th>
+                        <th class="px-6 py-4 whitespace-nowrap">Date Received</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-800/80 text-xs">
+                    {% for item in messages %}
+                    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition-colors align-top">
+                        <td class="px-6 py-4 font-bold text-slate-900 dark:text-white">
+                            <span class="block text-sm font-black text-slate-900 dark:text-white">{{ item.name }}</span>
+                            <span class="inline-flex items-center gap-1.5 font-mono text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                                <i class="fas fa-envelope text-slate-400 text-[10px]"></i> {{ item.email }}
+                            </span>
+                            <span class="block font-mono text-[10px] text-slate-400 mt-1">ID: {{ item.id }}</span>
+                        </td>
+                        <td class="px-6 py-4 font-semibold text-slate-800 dark:text-slate-200 max-w-xs">
+                            {{ item.subject or 'General Inquiry' }}
+                        </td>
+                        <td class="px-6 py-4 font-medium text-slate-600 dark:text-slate-300 max-w-md leading-relaxed break-words">
+                            {{ item.message or 'No message body provided.' }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium text-slate-500 dark:text-slate-400">
+                            {{ item.created_at.strftime('%Y-%m-%d %H:%M') if item.created_at else 'N/A' }}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-20 text-center">
+                            <div class="w-12 h-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400 mx-auto mb-3 shadow-xs">
+                                <i class="fas fa-inbox text-lg"></i>
+                            </div>
+                            <p class="font-extrabold text-sm text-slate-900 dark:text-white">No messages found.</p>
+                            <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Incoming contact form submissions will appear here.</p>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

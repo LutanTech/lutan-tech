@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" style="height:-webkit-fill-available;">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %}Admin Dashboard{% endblock %} | Lutan Tech</title>
+	<meta name="robots" content="noindex, nofollow">
+	<link rel="icon" href="https://lutan-tech.is-great.org/images/LUTAN_TECH_LOGO.png" type="image/png">
+	<script src="/static/assets/js/tailwind.js"></script>
+	<script>
+		tailwind.config = {
+			darkMode: 'class',
+			theme: {
+				extend: {
+					colors: {
+						lutan: {
+							green: '#009639',
+							darkgreen: '#007a2e',
+							lightgreen: '#e6f5eb',
+							red: '#e20613',
+							darkred: '#b8040f',
+							lightred: '#fde8e8',
+							dark: '#0f172a',
+							cardDark: '#1e293b'
+						}
+					}
+				}
+			}
+		}
+	</script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+	<style>
+        html{
+            zoom:0.8;
+            height:-webkit-fill-available;
+
+        }
+		:root {
+			--lutan-green: #009639;
+			--lutan-green-dark: #007a2e;
+			--lutan-green-light: #e6f5eb;
+			--lutan-red: #e20613;
+			--lutan-red-dark: #b8040f;
+			--lutan-red-light: #fde8e8;
+			--lutan-black: #0f172a;
+			--lutan-white: #ffffff;
+			--lutan-gray: #64748b;
+			--lutan-gray-light: #f8fafc;
+			--lutan-border: #e2e8f0;
+			--lutan-text: #1e293b;
+		}
+
+		.dark {
+			--lutan-black: #090d16;
+			--lutan-green-light: rgba(0, 150, 57, 0.15);
+			--lutan-red-light: rgba(226, 6, 19, 0.15);
+			--lutan-gray-light: #0f172a;
+			--lutan-border: #334155;
+			--lutan-text: #f8fafc;
+		}
+
+		body {
+			font-family: 'Inter', sans-serif;
+			background-color: var(--lutan-gray-light);
+			color: var(--lutan-text);
+			transition: background-color 0.3s ease, color 0.3s ease;
+		}
+
+		.soft-card {
+			background-color: var(--lutan-white);
+			border: 1px solid var(--lutan-border);
+			border-radius: 1rem;
+			box-shadow: 0 4px 15px -2px rgba(0, 0, 0, 0.04), 0 2px 6px -2px rgba(0, 0, 0, 0.02);
+			transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		}
+
+		.dark .soft-card {
+			background-color: #1e293b;
+			border-color: var(--lutan-border);
+		}
+
+		.admin-link {
+			display: flex;
+			align-items: center;
+			gap: 0.75rem;
+			padding: 0.65rem 0.85rem;
+			border-radius: 0.6rem;
+			font-size: 0.8rem;
+			font-weight: 700;
+			text-transform: uppercase;
+			letter-spacing: 0.05em;
+			transition: all 0.2s ease;
+			color: #64748b;
+		}
+
+		.dark .admin-link {
+			color: #94a3b8;
+		}
+
+		.admin-link:hover,
+		.admin-link.active {
+			color: white;
+			background: var(--lutan-green);
+			box-shadow: 0 4px 12px rgba(0, 150, 57, 0.25);
+		}
+
+		.admin-link i {
+			width: 1rem;
+			text-align: center;
+		}
+
+		::-webkit-scrollbar {
+			width: 8px;
+		}
+
+		::-webkit-scrollbar-track {
+			background: #f1f5f9;
+		}
+
+		.dark ::-webkit-scrollbar-track {
+			background: #0f172a;
+		}
+
+		::-webkit-scrollbar-thumb {
+			background: var(--lutan-green);
+			border-radius: 9999px;
+		}
+
+		::-webkit-scrollbar-thumb:hover {
+			background: var(--lutan-green-dark);
+		}
+
+		@keyframes float-slow {
+			0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+			50% { transform: translateY(-20px) rotate(180deg) scale(1.05); }
+		}
+
+		@keyframes float-reverse {
+			0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+			50% { transform: translateY(20px) rotate(-180deg) scale(0.95); }
+		}
+
+		.bg-epic-grid {
+			background-image: radial-gradient(rgba(0, 150, 57, 0.18) 1.2px, transparent 1.2px);
+			background-size: 28px 28px;
+		}
+
+		.dark .bg-epic-grid {
+			background-image: radial-gradient(rgba(0, 220, 100, 0.22) 1.2px, transparent 1.2px);
+		}
+
+		.svg-glow {
+			filter: drop-shadow(0 0 25px rgba(0, 150, 57, 0.45));
+			transition: filter 0.3s ease, opacity 0.3s ease;
+		}
+
+		.dark .svg-glow {
+			filter: drop-shadow(0 0 35px rgba(0, 220, 100, 0.6)) brightness(1.2);
+		}
+
+		.floating-circle-1 {
+			animation: float-slow 14s ease-in-out infinite;
+		}
+
+		.floating-circle-2 {
+			animation: float-reverse 18s ease-in-out infinite;
+		}
+	</style>
+
+	<script>
+		if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+			document.documentElement.classList.add('dark');
+		} else {
+			document.documentElement.classList.remove('dark');
+		}
+	</script>
+
+	{% block head %}{% endblock %}
+</head>
+
+<body class="min-h-screen flex flex-col justify-between dark:bg-slate-950 relative bg-epic-grid" style="height:-webkit-fill-available;">
+
+	<div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
+		<div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-emerald-500/20 dark:bg-emerald-500/30 blur-3xl floating-circle-1"></div>
+		<div class="absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-teal-500/20 dark:bg-teal-500/30 blur-3xl floating-circle-2"></div>
+		<div class="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-lutan-green/20 blur-3xl floating-circle-1"></div>
+		
+		<img src="/static/assets/svgs/circle.svg" 
+			 alt="Circle Background Accent Top" 
+			 class="absolute top-12 right-8 w-80 md:w-[480px] opacity-70 dark:opacity-85 pointer-events-none floating-circle-1 svg-glow">
+			 
+		<img src="/static/assets/svgs/circle.svg" 
+			 alt="Circle Background Accent Bottom" 
+			 class="absolute bottom-1/4 -left-16 w-80 md:w-[500px] opacity-60 dark:opacity-75 pointer-events-none floating-circle-2 svg-glow">
+	</div>
+
+	<div id="admin-overlay" class="hidden fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-xs lg:hidden"></div>
+
+	<aside id="admin-sidebar" class="fixed inset-y-0 left-0 z-50 w-72 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-r border-slate-200 dark:border-slate-800 flex flex-col -translate-x-full lg:translate-x-0 transition-transform duration-300 shadow-xl lg:shadow-none">
+		<div class="h-20 px-6 flex items-center justify-between border-b border-slate-200 dark:border-slate-800 shrink-0">
+			<a href="{{ url_for('admin_dashboard') }}" class="flex items-center gap-2 group">
+				<div class="w-8 h-8 rounded-lg bg-lutan-green flex items-center justify-center text-white text-sm shadow-md group-hover:bg-lutan-red transition-colors">
+					<i class="fas fa-code"></i>
+				</div>
+				<span class="text-lutan-green dark:text-green-400 font-extrabold tracking-tight">LUTAN</span>
+				<span class="bg-lutan-red text-white px-2 py-0.5 rounded-md text-xs font-black uppercase tracking-wider shadow-sm">TECH</span>
+			</a>
+			<button id="close-sidebar" class="lg:hidden text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+				<i class="fas fa-times"></i>
+			</button>
+		</div>
+
+		<div class="px-5 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30">
+			<div class="flex items-center gap-3">
+				<div class="w-9 h-9 rounded-xl bg-green-100 text-lutan-green dark:bg-green-950/60 dark:text-emerald-400 flex items-center justify-center font-bold text-sm border border-green-200 dark:border-green-800 shadow-sm">
+					<i class="fas fa-user-shield text-xs"></i>
+				</div>
+				<div class="min-w-0">
+					<p class="font-black text-xs uppercase tracking-wider text-slate-900 dark:text-white truncate">{{ session.get('username') }}</p>
+					<p class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-0.5">Control Panel</p>
+				</div>
+			</div>
+		</div>
+
+		<nav class="flex-1 overflow-y-auto px-3 py-4 space-y-1">
+			<p class="px-3 mb-2 text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Overview</p>
+
+			<a href="{{ url_for('admin_dashboard') }}" class="admin-link {% if request.endpoint == 'admin_dashboard' %}bg-lutan-green !text-white shadow-sm{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+				<i class="fas fa-gauge-high text-xs"></i> Dashboard
+			</a>
+
+			<a href="{{ url_for('admin_logs') }}" class="admin-link {% if request.endpoint == 'admin_logs' %}bg-lutan-green !text-white shadow-sm{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+				<i class="fas fa-clipboard-list text-xs"></i> Visitor Logs
+			</a>
+
+            <a href="{{ url_for('admin_projects') }}" class="admin-link {% if request.endpoint == 'admin_projects' %}bg-lutan-green !text-white shadow-sm{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+				<i class="fas fa-scroll text-xs"></i> Projects
+			</a>
+
+            <a href="{{ url_for('admin_blogs') }}" class="admin-link {% if request.endpoint == 'admin_projects' %}bg-lutan-green !text-white shadow-sm{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+				<i class="fas fa-book text-xs"></i> Blogs
+			</a>
+
+			<a href="{{ url_for('admin_campaigns') }}" class="admin-link {% if request.endpoint == 'admin_campaigns' %}bg-lutan-green !text-white shadow-sm{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+				<i class="fas fa-bullhorn text-xs"></i> Campaign Tracking
+			</a>
+
+			<p class="px-3 pt-5 mb-2 text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Management</p>
+
+			<a href="{{ url_for('admin_staff') }}" class="admin-link {% if request.endpoint == 'admin_staff' %}bg-lutan-green !text-white shadow-sm{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+				<i class="fas fa-users text-xs"></i> Staff
+			</a>
+            <a href="{{ url_for('admin_messages') }}" class="admin-link {% if request.endpoint == 'admin_messages' %}bg-lutan-green !text-white shadow-sm{% else %}text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800{% endif %}">
+				<i class="fas fa-comments text-xs"></i> Messages
+			</a>
+
+			{% block sidebar_links %}{% endblock %}
+
+			<p class="px-3 pt-5 mb-2 text-[10px] font-extrabold uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500">Website</p>
+
+			<a href="{{ url_for('index') }}" target="_blank" rel="noopener noreferrer" class="admin-link text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800">
+				<i class="fas fa-arrow-up-right-from-square text-xs"></i> View Website
+			</a>
+		</nav>
+
+		<div class="p-4 border-t border-slate-200 dark:border-slate-800 shrink-0 bg-slate-50/50 dark:bg-slate-800/30">
+			<a href="{{ url_for('admin_logout') }}" class="admin-link text-lutan-red hover:bg-red-50 dark:hover:bg-red-950/40 !bg-transparent hover:!bg-lutan-red hover:!text-white transition-all">
+				<i class="fas fa-right-from-bracket text-xs"></i> Sign Out
+			</a>
+			<p class="text-center text-[10px] font-bold text-slate-400 dark:text-slate-500 mt-3">&copy; {{ year }} Lutan Tech</p>
+		</div>
+	</aside>
+
+	<div class="lg:ml-72 min-h-screen flex flex-col relative z-10" style="height:-webkit-fill-available;">
+		<header class="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800">
+			<div class="h-20 px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
+				<div class="flex items-center gap-3 min-w-0">
+					<button id="open-sidebar" class="lg:hidden w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 flex items-center justify-center text-slate-700 dark:text-slate-200 transition-colors shadow-xs border border-slate-200 dark:border-slate-700" aria-label="Open sidebar">
+						<i class="fas fa-bars"></i>
+					</button>
+					<div class="min-w-0">
+						<h1 class="font-black text-lg sm:text-xl text-slate-900 dark:text-white truncate tracking-tight">{% block page_heading %}Dashboard{% endblock %}</h1>
+						<p class="text-xs font-medium text-slate-500 dark:text-slate-400 hidden sm:block">{% block page_description %}Manage your website and platform analytics{% endblock %}</p>
+					</div>
+				</div>
+
+				<div class="flex items-center gap-2">
+					{% block header_actions %}{% endblock %}
+
+					<button id="theme-toggle" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 focus:outline-none transition-all dark:bg-slate-800 dark:hover:bg-slate-700 flex justify-center items-center border border-slate-200 dark:border-slate-700 shadow-sm w-10 h-10" aria-label="Toggle theme">
+						<i id="sun-icon" class="fas fa-sun w-4 h-4 block dark:hidden text-amber-500"></i>
+						<i id="moon-icon" class="fas fa-moon w-4 h-4 hidden dark:block text-emerald-400"></i>
+					</button>
+
+					<a href="{{ url_for('index') }}" target="_blank" rel="noopener noreferrer" class="hidden sm:flex w-10 h-10 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 items-center justify-center text-slate-700 dark:text-slate-200 transition-colors border border-slate-200 dark:border-slate-700 shadow-sm" aria-label="View website">
+						<i class="fas fa-external-link-alt text-xs"></i>
+					</a>
+				</div>
+			</div>
+		</header>
+
+		<main class="flex-1 p-4 sm:p-6 lg:p-8" style="height:auto">
+			{% with messages = get_flashed_messages(with_categories=true) %}
+				{% if messages %}
+					<div class="space-y-3 mb-6">
+						{% for category, message in messages %}
+							<div class="flex items-start gap-3 rounded-xl border p-4 text-xs font-bold shadow-sm
+								{% if category in ['success'] %}bg-green-50 border-green-200 text-green-800 dark:bg-green-950/40 dark:border-green-900 dark:text-green-300
+								{% elif category in ['error', 'danger'] %}bg-red-50 border-red-200 text-red-800 dark:bg-red-950/40 dark:border-red-900 dark:text-red-300
+								{% else %}bg-blue-50 border-blue-200 text-blue-800 dark:bg-blue-950/40 dark:border-blue-900 dark:text-blue-300{% endif %}">
+								<i class="fas {% if category == 'success' %}fa-circle-check{% elif category in ['error', 'danger'] %}fa-circle-exclamation{% else %}fa-circle-info{% endif %} mt-0.5 text-sm"></i>
+								<p class="flex-1 leading-relaxed">{{ message }}</p>
+								<button onclick="this.parentElement.remove()" class="opacity-70 hover:opacity-100 p-1" aria-label="Dismiss message">
+									<i class="fas fa-times text-xs"></i>
+								</button>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			{% endwith %}
+
+			{% block content %}{% endblock %}
+		</main>
+
+		<footer class="px-4 sm:px-8 py-5 border-t border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md text-xs text-slate-500 dark:text-slate-400 font-semibold flex flex-col sm:flex-row justify-between gap-2">
+			<span>&copy; {{ year }} Lutan Tech. All rights reserved.</span>
+			<span class="flex items-center gap-1.5">Built with precision and security <i class="fas fa-shield-halved text-lutan-green"></i></span>
+		</footer>
+	</div>
+
+	<script>
+		const sidebar = document.getElementById('admin-sidebar');
+		const overlay = document.getElementById('admin-overlay');
+
+		function openSidebar() {
+			sidebar.classList.remove('-translate-x-full');
+			overlay.classList.remove('hidden');
+			document.body.classList.add('overflow-hidden');
+		}
+
+		function closeSidebar() {
+			sidebar.classList.add('-translate-x-full');
+			overlay.classList.add('hidden');
+			document.body.classList.remove('overflow-hidden');
+		}
+
+		document.getElementById('open-sidebar').addEventListener('click', openSidebar);
+		document.getElementById('close-sidebar').addEventListener('click', closeSidebar);
+		overlay.addEventListener('click', closeSidebar);
+
+		document.addEventListener('keydown', function(event) {
+			if (event.key === 'Escape') closeSidebar();
+		});
+
+		document.getElementById('theme-toggle').addEventListener('click', function() {
+			const dark = document.documentElement.classList.toggle('dark');
+			try {
+				localStorage.theme = dark ? 'dark' : 'light';
+			} catch (e) {}
+		});
+	</script>
+
+	{% block scripts %}{% endblock %}
+</body>
+</html>

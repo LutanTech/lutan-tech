@@ -1,0 +1,8 @@
+
+{% extends "error_base.html" %}
+{% block status_badge %}500 · SERVER ERROR{% endblock %}
+{% block status_code %}500{% endblock %}
+{% block status_text %}Internal Server Error{% endblock %}
+{% block error_message %}Something went wrong on our server. Please try again later.{% endblock %}
+{% block terminal_status %}500{% endblock %}
+{% block terminal_error %}500_INTERNAL_SERVER_ERROR{% endblock %}

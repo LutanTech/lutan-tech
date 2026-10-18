@@ -1,0 +1,64 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="pointer-events-none fixed inset-0 overflow-hidden z-0">
+    <div class="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-emerald-500/20 dark:bg-emerald-500/30 blur-3xl floating-circle-1"></div>
+    <div class="absolute top-1/3 -right-32 w-96 h-96 rounded-full bg-teal-500/20 dark:bg-teal-500/30 blur-3xl floating-circle-2"></div>
+    <div class="absolute bottom-10 left-10 w-80 h-80 rounded-full bg-lutan-green/20 blur-3xl floating-circle-1"></div>
+
+    <img src="https://lutan-tech.co.ke/assets/svgs/circle.svg" alt="" class="absolute top-12 right-8 w-80 md:w-[480px] opacity-70 dark:opacity-85 floating-circle-1 svg-glow">
+    <img src="https://lutan-tech.co.ke/assets/svgs/circle.svg" alt="" class="absolute bottom-1/4 -left-16 w-80 md:w-[500px] opacity-60 dark:opacity-75 floating-circle-2 svg-glow">
+</div>
+
+<div class="container mx-auto px-4 max-w-4xl relative z-10 py-12">
+    <div class="soft-card p-8 md:p-12 text-center flex flex-col items-center shadow-2xl">
+
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-100 text-lutan-red dark:bg-red-950/60 dark:text-red-400 text-xs font-bold tracking-wide mb-6 border border-red-200 dark:border-red-900 shadow-sm">
+            <i class="fas fa-triangle-exclamation"></i>
+            Error Status: {% block status_badge %}{% endblock %}
+        </div>
+
+        <h1 class="text-7xl md:text-9xl font-black tracking-tighter mb-4 bg-gradient-to-r from-lutan-green via-emerald-400 to-lutan-red bg-clip-text text-transparent drop-shadow-md">
+            {% block status_code %}{% endblock %}
+        </h1>
+
+        <h2 class="text-2xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight mb-3">
+            {% block status_text %}{% endblock %}
+        </h2>
+
+        <p class="text-slate-600 dark:text-slate-300 text-xs md:text-sm font-medium max-w-xl leading-relaxed mb-8">
+            {% block error_message %}The page you requested could not be found or accessed. Please check the URL and try again.{% endblock %}
+        </p>
+
+        <div class="w-full max-w-lg terminal-box rounded-xl p-4 text-left text-xs text-emerald-400 mb-8 shadow-inner overflow-x-auto border border-slate-800">
+            <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800 text-slate-400">
+                <span class="flex items-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-red-500 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500 inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block"></span>
+                    <span class="ml-1 text-[11px] font-mono text-slate-400">diagnostics@lutan-tech:~$</span>
+                </span>
+                <span class="text-[10px] text-lutan-red font-bold">STATUS: {% block terminal_status %}{% endblock %}</span>
+            </div>
+            <p class="text-slate-300"><span class="text-slate-500">&gt;</span> System.Status: <span class="text-red-400 font-bold uppercase">{% block terminal_error %}{% endblock %}</span></p>
+            <p class="text-slate-300"><span class="text-slate-500">&gt;</span> Host: <span class="text-emerald-300">{{ request.host_url }}</span></p>
+            <p class="text-slate-300"><span class="text-slate-500">&gt;</span> Requested Path: <span class="text-amber-300">{{ request.path }}</span></p>
+            <p class="text-slate-400 mt-2 text-[11px]">&gt; Diagnostic complete. Select an option below to continue.</p>
+        </div>
+
+        <div class="flex flex-wrap items-center justify-center gap-4">
+            <a href="/" class="bg-lutan-green hover:bg-lutan-darkgreen text-white font-extrabold text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-lg hover:shadow-green-500/20 transition-all hover:-translate-y-0.5">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+
+            <a href="/projects" class="border-2 border-slate-300 dark:border-slate-700 hover:border-lutan-green bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-sm transition-all hover:-translate-y-0.5">
+                <i class="fas fa-laptop-code text-lutan-green"></i> Explore Projects
+            </a>
+
+            <a href="/contact" class="border-2 border-slate-300 dark:border-slate-700 hover:border-lutan-green bg-white dark:bg-slate-800 text-slate-900 dark:text-white font-black text-xs uppercase tracking-wider px-6 py-3.5 rounded-xl inline-flex items-center gap-2 shadow-sm transition-all hover:-translate-y-0.5">
+                <i class="fas fa-envelope text-lutan-green"></i> Contact Support
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
