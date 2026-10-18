@@ -47,6 +47,9 @@
 <meta name="twitter:image" content="{{ page_image }}">
 <meta name="twitter:image:alt" content="{{ page_title }}">
 {% endblock %}
+{% block progress %}
+<div id="reading-progress" style="width:0%"></div>
+{% endblock %}
 {% block content %}
 <style>
 	.overlay{
@@ -57,17 +60,17 @@
         padding: 1.5rem;
         border: 1px solid rgba(124, 255, 203, 0.25);
         border-left: 4px solid #7cffcb;
-        background: rgba(155, 255, 124, 0.601);
+        background: rgba(136, 255, 103, 0.4);
 		position: relative;
     }
     
-    .blog-content .blog-takeaway h4 {
+    .blog-content .blog-takeaway h2 {
         margin: 0 0 1rem;
         color: #16a875;
         font-weight: 800;
     }
     
-    .blog-content .blog-takeaway h4:first-child {
+    .blog-content .blog-takeaway h2:first-child {
         margin-top: 0;
     }
     
@@ -76,7 +79,7 @@
     }
     
     .dark .blog-content .blog-takeaway {
-        background: rgba(124, 255, 203, 0.405);
+        background: rgba(0, 0, 0, 0.405);
         border-color: rgba(124, 255, 203, 0.2);
         border-left-color: #7cffcb;
     }
@@ -198,7 +201,7 @@
 							<span class="bg-green-100 text-lutan-green dark:bg-green-950/80 dark:text-emerald-400 text-[10px] font-extrabold px-2 py-0.5 rounded-md">VERIFIED</span>
 						</div>
 						<p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed mb-3">
-							Lutan Tech specializes in developing high-performance web applications, robust cybersecurity integrations, intuitive UI/UX design, and AI digital strategies.
+							Lutan Tech specializes in developing high-performance web applications, robust cybersecurity integrations, intuitive UI/UX design and AI digital strategies.
 						</p>
 						<a href="/#contact" class="inline-flex items-center gap-1.5 text-xs font-bold text-lutan-green hover:text-lutan-darkgreen dark:hover:text-emerald-400 transition-colors">
 							Work with our engineering team <i class="fas fa-arrow-right text-[10px]"></i>
@@ -230,7 +233,7 @@
 								{{ blog.title|safe }}
 							</h4>
 							<p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">
-								{{ blog.summary|safe }}
+								{{ blog.summary|striptags|truncate(100, True, '...') }}
 							</p>
 							</a>
 						</div>
@@ -310,6 +313,12 @@
 			}
 		}
 	})
+	window.onscroll = function() {
+			let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+			let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+			let scrolled = (winScroll / height) * 100;
+			document.getElementById("reading-progress").style.width = scrolled + "%";
+		};
 	</script>
 {% endblock %}
 {% block overlay %}

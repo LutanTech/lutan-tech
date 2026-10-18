@@ -357,11 +357,21 @@
 			border: 1px solid #1e293b;
 			font-family: monospace;
 		}
+		#reading-progress {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 0%;
+			height: 4px;
+			background: var(--lutan-green);
+			z-index: 100;
+			transition: width 0.1s ease;
+		}
 	</style>
 </head>
 
 <body class="min-h-screen flex flex-col justify-between dark:bg-slate-950">
-
+{% block progress %} {% endblock%}
 	<script>
 		if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
 			document.documentElement.classList.add('dark');
