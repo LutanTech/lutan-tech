@@ -672,8 +672,9 @@ def admin_logs():
     route = request.args.get('route', '').strip()
     ip = request.args.get('ip', '').strip()
     level = request.args.get('level', '').strip()
+    traffic_type = request.args.get('traffic_type', '').strip()
 
-    query = Log.query
+    query = Log.query.filter(Log.deleted_at.is_(None))
 
     if code:
         query = query.filter(Log.code == code)
@@ -687,8 +688,10 @@ def admin_logs():
     if level:
         query = query.filter(Log.level == level)
 
-    logs = query.filter(Log.deleted_at.is_(None)).order_by(Log.created_at.desc()).limit(500).all()
-    
+    if traffic_type:
+        query = query.filter(Log.traffic_type == traffic_type)
+
+    logs = query.order_by(Log.created_at.desc()).limit(500).all()
     blocked_ips = BlockedIP.query.order_by(BlockedIP.created_at.desc()).all()
 
     return render_template(
@@ -698,6 +701,7 @@ def admin_logs():
         route=route,
         ip=ip,
         level=level,
+        traffic_type=traffic_type,
         blocked_ips=blocked_ips
     )
 
