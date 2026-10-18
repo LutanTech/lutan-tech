@@ -21,6 +21,7 @@ from flask import (
     session,
     url_for,
 )
+from flask import Response
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 import markdown2
@@ -898,6 +899,78 @@ def add_projects():
             db.session.add(Project(**p))
     db.session.commit()
     return jsonify({'sucess':f'added {len(projects)}'})
+
+
+
+@app.route('/sitemap.xml')
+def sitemap():
+    urls = [
+        url_for(rule.endpoint, _external=True)
+        for rule in app.url_map.iter_rules()
+        if '/cp/' not in rule.rule
+        and rule.endpoint != 'static'
+        and rule.methods.intersection({'GET', 'HEAD'})
+        and '<' not in rule.rule
+    ]
+
+    urls.extend(
+        url_for('blog', slug=blog.slug, _external=True)
+        for blog in Blog.query.filter_by(deleted_at=None).all()
+    )
+
+    return Response(
+        render_template('sitemap.xml', pages=list(dict.fromkeys(urls))),
+        mimetype='application/xml'
+    )
+    
+@app.route('/rss.xml')
+def rss():
+    from html import unescape
+    from re import sub
+    from xml.sax.saxutils import escape
+    from email.utils import format_datetime
+    from datetime import timezone
+
+    blogs = Blog.query.filter_by(deleted_at=None).order_by(Blog.created_at.desc()).limit(50).all()
+    base_url = request.url_root.rstrip('/')
+
+    def clean(value):
+        value = unescape(str(value or ''))
+        return sub(r'\s+', ' ', sub(r'<[^>]+>', ' ', value)).strip()
+
+    items = []
+
+    for blog in blogs:
+        link = base_url + url_for('blog', slug=blog.slug)
+        pub_date = ''
+
+        if blog.created_at:
+            date = blog.created_at.replace(tzinfo=timezone.utc)
+            pub_date = f'<pubDate>{format_datetime(date, usegmt=True)}</pubDate>'
+
+        description = clean(getattr(blog, 'excerpt', None) or getattr(blog, 'content', None))
+
+        items.append(
+            f'<item>'
+            f'<title>{escape(clean(blog.title))}</title>'
+            f'<link>{escape(link)}</link>'
+            f'<guid isPermaLink="true">{escape(link)}</guid>'
+            f'<description>{escape(description)}</description>'
+            f'{pub_date}'
+            f'</item>'
+        )
+
+    xml = (
+        '<?xml version="1.0" encoding="UTF-8"?>'
+        '<rss version="2.0"><channel>'
+        f'<title>{escape("Lutan Tech Blog")}</title>'
+        f'<link>{escape(base_url)}</link>'
+        f'<description>{escape("Latest blog posts")}</description>'
+        f'{"".join(items)}'
+        '</channel></rss>'
+    )
+
+    return Response(xml, mimetype='application/rss+xml; charset=utf-8')
 
 if __name__ == '__main__':
     with app.app_context():
