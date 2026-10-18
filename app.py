@@ -45,6 +45,7 @@ app.config['UPLOAD_FOLDER'] = os.path.join(os.path.dirname(os.path.abspath(__fil
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 RECAPTCHA_SECRET_KEY = os.environ.get('GOOGLE_KEY')
+delta=3
 
 
 db = SQLAlchemy(app)
@@ -131,8 +132,8 @@ class Staff(db.Model):
     username = db.Column(db.String(500), index=True, nullable=True)
     password = db.Column(db.String(2048), nullable=False)
     login_method = db.Column(db.String(50), nullable=False, default='email')
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow() + timedelta(hours=delta))
+    updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow() + timedelta(hours=delta))
     is_admin = db.Column(db.Boolean, default=False)  
     is_active = db.Column(db.Boolean, default=False)  
 
@@ -148,13 +149,13 @@ class Log(db.Model):
     username = db.Column(db.String(500), nullable=True)
     is_bot = db.Column(db.Boolean, default=False)  
     bot_name = db.Column(db.String(100), nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow() + timedelta(hours=delta), index=True)
     deleted_at = db.Column(db.DateTime)
    
 class BlockedIP(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     ip_address = db.Column(db.String(45), unique=True, nullable=False, index=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow() + timedelta(hours=delta), nullable=False)
  
 class Message(db.Model):
     id = db.Column(db.String(50), primary_key=True, default=lambda: generate_id('MSG', 8))
@@ -162,7 +163,7 @@ class Message(db.Model):
     email = db.Column(db.String(200), nullable=False,index=True)
     subject = db.Column(db.String(500), nullable=True)
     message = db.Column(db.Text, nullable=True)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow() + timedelta(hours=delta))
 
 class VisitorCampaign(db.Model):
     id = db.Column(db.String(50), primary_key=True, default=lambda: generate_id('UTM', 8))
@@ -175,7 +176,7 @@ class VisitorCampaign(db.Model):
     referrer = db.Column(db.String(1000))
     ip_address = db.Column(db.String(45), index=True)
     user_agent = db.Column(db.Text)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow, index=True)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow() + timedelta(hours=delta), index=True)
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -187,7 +188,7 @@ class Project(db.Model):
     site = db.Column(db.String(500), nullable=False)
     code = db.Column(db.String(500))
     tech = db.Column(db.JSON, nullable=False, default=list)
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow() + timedelta(hours=delta))
 
 class Blog(db.Model):
     id = db.Column(db.String(), primary_key=True, default=lambda:generate_id('BLOG', 6))
@@ -203,7 +204,7 @@ class Blog(db.Model):
     tags = db.Column(db.JSON, nullable=False, default=list)
     reading_time = db.Column(db.Integer, default=1)
     date = db.Column(db.String(50))
-    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow() + timedelta(hours=delta))
     deleted_at = db.Column(db.DateTime)
     
     
@@ -703,7 +704,7 @@ def admin_logs():
 @app.route('/cp/logs/delete', methods=['POST'])
 def admin_delete_logs():
     Log.query.filter(Log.deleted_at.is_(None)).update(
-        {Log.deleted_at: datetime.utcnow()},
+        {Log.deleted_at: datetime.utcnow() + timedelta(hours=delta)},
         synchronize_session=False
     )
     db.session.commit()
@@ -721,7 +722,7 @@ def admin_delete_selected_logs():
         return jsonify({'error': 'No valid log IDs.'}), 400
 
     count = Log.query.filter(Log.id.in_(ids), Log.deleted_at.is_(None)).update(
-        {Log.deleted_at: datetime.utcnow()}, synchronize_session=False
+        {Log.deleted_at: datetime.utcnow() + timedelta(hours=delta)}, synchronize_session=False
     )
     db.session.commit()
     return jsonify({'success': True, 'deleted': count})
@@ -730,7 +731,7 @@ def admin_delete_selected_logs():
 @app.route('/cp/api/logs/delete-all', methods=['POST'])
 def admin_delete_all_logs():
     count = Log.query.filter(Log.deleted_at.is_(None)).update(
-        {Log.deleted_at: datetime.utcnow()}, synchronize_session=False
+        {Log.deleted_at: datetime.utcnow() + timedelta(hours=delta)}, synchronize_session=False
     )
     db.session.commit()
     return jsonify({'success': True, 'deleted': count})
