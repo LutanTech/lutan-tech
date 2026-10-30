@@ -705,6 +705,22 @@ def admin_logs():
         blocked_ips=blocked_ips
     )
 
+
+@app.route('/robots.txt')
+def robots():
+    content = """User-agent: *
+Allow: /
+Disallow: /cp
+Disallow: /api/
+
+Sitemap: https://lutan-tech.co.ke/sitemap.xml
+"""
+    return Response(content, mimetype='text/plain')
+
+@app.route('/favicon.ico')
+def favicon():
+    return redirect(url_for('static', filename='favicon.ico'))
+
 @app.route('/cp/logs/delete', methods=['POST'])
 def admin_delete_logs():
     Log.query.filter(Log.deleted_at.is_(None)).update(
