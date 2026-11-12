@@ -367,6 +367,23 @@
 			z-index: 100;
 			transition: width 0.1s ease;
 		}
+
+
+
+		@keyframes marquee {
+			0% { transform: translateX(0%); }
+			100% { transform: translateX(-100%); }
+		}
+		
+		.animate-marquee {
+			display: flex;
+			width: max-content;
+			animation: marquee 45s linear infinite;
+		}
+		
+		.group:hover .animate-marquee {
+			animation-play-state: paused;
+		}
 	</style>
 </head>
 
